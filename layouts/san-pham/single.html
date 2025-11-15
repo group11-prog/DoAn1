@@ -149,51 +149,72 @@
 
     <div id="tab-reviews" class="tab-content" style="display: none">
       <div class="reviews-container-pro">
-        
         <div class="reviews-summary-pro">
           <div class="summary-left">
             <div class="summary-score">
-              <span class="score-number">5</span>
+              <span class="score-number" id="summary-score-number">5</span>
               <span class="score-total">/5</span>
             </div>
             <div class="star-icons-large">★★★★★</div>
-            <div class="summary-count">(8 lượt đánh giá)</div>
+            <div class="summary-count" id="summary-count-text">
+              (8 lượt đánh giá)
+            </div>
           </div>
           <div class="summary-right">
             <div class="rating-bar-row">
               <div class="star-label">5 ★</div>
               <div class="rating-bar">
-                <div class="rating-bar-filled" style="width: 100%"></div>
+                <div
+                  class="rating-bar-filled"
+                  id="rating-bar-5"
+                  style="width: 100%"
+                ></div>
               </div>
-              <div class="star-count">8</div>
+              <div class="star-count" id="star-count-5">8</div>
             </div>
             <div class="rating-bar-row">
               <div class="star-label">4 ★</div>
               <div class="rating-bar">
-                <div class="rating-bar-filled" style="width: 0%"></div>
+                <div
+                  class="rating-bar-filled"
+                  id="rating-bar-4"
+                  style="width: 0%"
+                ></div>
               </div>
-              <div class="star-count">0</div>
+              <div class="star-count" id="star-count-4">0</div>
             </div>
             <div class="rating-bar-row">
               <div class="star-label">3 ★</div>
               <div class="rating-bar">
-                <div class="rating-bar-filled" style="width: 0%"></div>
+                <div
+                  class="rating-bar-filled"
+                  id="rating-bar-3"
+                  style="width: 0%"
+                ></div>
               </div>
-              <div class="star-count">0</div>
+              <div class="star-count" id="star-count-3">0</div>
             </div>
             <div class="rating-bar-row">
               <div class="star-label">2 ★</div>
               <div class="rating-bar">
-                <div class="rating-bar-filled" style="width: 0%"></div>
+                <div
+                  class="rating-bar-filled"
+                  id="rating-bar-2"
+                  style="width: 0%"
+                ></div>
               </div>
-              <div class="star-count">0</div>
+              <div class="star-count" id="star-count-2">0</div>
             </div>
             <div class="rating-bar-row">
               <div class="star-label">1 ★</div>
               <div class="rating-bar">
-                <div class="rating-bar-filled" style="width: 0%"></div>
+                <div
+                  class="rating-bar-filled"
+                  id="rating-bar-1"
+                  style="width: 0%"
+                ></div>
               </div>
-              <div class="star-count">0</div>
+              <div class="star-count" id="star-count-1">0</div>
             </div>
           </div>
         </div>
@@ -201,9 +222,11 @@
         <button class="review-write-button">Đánh giá sản phẩm</button>
 
         <div class="reviews-header-pro">
-          <h3 class="reviews-title-pro">7 Bình luận</h3>
+          <h3 class="reviews-title-pro" id="reviews-title-pro">7 Bình luận</h3>
           <div class="reviews-filter">
-            <button class="filter-btn active" data-filter="Tất cả">Tất cả</button>
+            <button class="filter-btn active" data-filter="Tất cả">
+              Tất cả
+            </button>
             <button class="filter-btn" data-filter="5">5 ★</button>
             <button class="filter-btn" data-filter="4">4 ★</button>
             <button class="filter-btn" data-filter="3">3 ★</button>
@@ -213,18 +236,36 @@
         </div>
 
         <div class="comment-input-area">
-          
           <div class="comment-star-input">
             <label>Đánh giá của bạn:</label>
             <div class="star-rating">
-                <input type="radio" id="star5" name="rating" value="5" /><label for="star5" title="5 sao">★</label>
-                <input type="radio" id="star4" name="rating" value="4" /><label for="star4" title="4 sao">★</label>
-                <input type="radio" id="star3" name="rating" value="3" /><label for="star3" title="3 sao">★</label>
-                <input type="radio" id="star2" name="rating" value="2" /><label for="star2" title="2 sao">★</label>
-                <input type="radio" id="star1" name="rating" value="1" /><label for="star1" title="1 sao">★</label>
+              <input type="radio" id="star5" name="rating" value="5" /><label
+                for="star5"
+                title="5 sao"
+                >★</label
+              >
+              <input type="radio" id="star4" name="rating" value="4" /><label
+                for="star4"
+                title="4 sao"
+                >★</label
+              >
+              <input type="radio" id="star3" name="rating" value="3" /><label
+                for="star3"
+                title="3 sao"
+                >★</label
+              >
+              <input type="radio" id="star2" name="rating" value="2" /><label
+                for="star2"
+                title="2 sao"
+                >★</label
+              >
+              <input type="radio" id="star1" name="rating" value="1" /><label
+                for="star1"
+                title="1 sao"
+                >★</label
+              >
             </div>
           </div>
-
           <textarea
             placeholder="Nhập nội dung bình luận..."
             maxlength="3000"
@@ -238,7 +279,6 @@
         </div>
 
         <div class="comment-list-pro" id="comment-list-pro">
-          
           <div class="comment-item-pro" data-rating="5">
             <div class="comment-avatar">H</div>
             <div class="comment-content">
@@ -248,25 +288,23 @@
               </div>
               <div class="comment-stars">★★★★★</div>
               <p class="comment-text">
-                Mình mua máy chủ yếu để chơi game. Thật sự FPS ổn định,
-                không lag, độ trễ gần như không có. Màn hình vừa đủ để
-                quan sát các chi tiết nhỏ trong game. Quạt hơi ồn khi chơi
-                lâu nhưng không khó chịu
+                Mình mua máy chủ yếu chơi game. Thật sự FPS ổn định, không lag,
+                độ trễ gần như không có. Màn hình 16 inch vừa đủ để quan sát các
+                chi tiết nhỏ trong game. Quạt hơi ồn khi chơi lâu nhưng không
+                khó chịu
               </p>
             </div>
           </div>
-          
-          <div class="comment-item-pro" data-rating="4">
+
+          <div class="comment-item-pro" data-rating="5">
             <div class="comment-avatar">T</div>
             <div class="comment-content">
               <div class="comment-author">
                 <strong>Văn Quý</strong>
                 <span>• 2 tháng trước</span>
               </div>
-              <div class="comment-stars">★★★★☆</div>
-              <p class="comment-text">
-                Nhìn chung đáp ứng tốt cho nhu cầu sử dụng của tôi
-              </p>
+              <div class="comment-stars">★★★★★</div>
+              <p class="comment-text">Nhìn chung đáp ứng tốt</p>
             </div>
           </div>
 
@@ -284,11 +322,10 @@
               </p>
             </div>
           </div>
-
         </div>
       </div>
     </div>
-    </section>
+  </section>
 
   <a id="floating-cart-button" class="hidden">
     <span class="cart-icon">🛒</span>
@@ -363,7 +400,7 @@
             <label>
               <input type="radio" name="payment" value="cod" checked /> Thanh
               toán khi nhận hàng (COD)
-            </LabeL>
+            </label>
             <label>
               <input type="radio" name="payment" value="bank" /> Chuyển khoản
               ngân hàng
@@ -402,7 +439,7 @@
 </article>
 
 <script>
-  // Biến toàn cục (để logic 10 và 11 có thể dùng chung)
+  // Biến toàn cục
   let cartItems = [];
   let tempProductToAdd = null;
   let currentCheckoutItems = [];
@@ -413,7 +450,7 @@
   /* HÀM TIỆN ÍCH (Functions)
     /* ============================================= */
 
-  // --- HÀM 1: Cập nhật giá tiền (trang chính) ---
+  // --- HÀM 1 -> 9 (Không thay đổi) ---
   function updateTotalPrice() {
     const variantRadios = document.querySelectorAll(
       '#variant-options input[name="variant"]'
@@ -421,8 +458,8 @@
     const quantityInput = document.getElementById("quantity");
     const totalPriceEl = document.getElementById("total-price");
     let selectedPrice = 0;
-    
-    if (!quantityInput || !totalPriceEl || !variantRadios) return; 
+
+    if (!quantityInput || !totalPriceEl || !variantRadios) return;
 
     for (const radio of variantRadios) {
       if (radio.checked) {
@@ -468,8 +505,6 @@
       }
     }
   }
-
-  // --- HÀM 2: Mở Tab ---
   function openTab(evt, tabName) {
     var tabContents = document.querySelectorAll(".tab-content");
     tabContents.forEach((tab) => (tab.style.display = "none"));
@@ -478,36 +513,26 @@
     document.getElementById(tabName).style.display = "block";
     evt.currentTarget.classList.add("active");
   }
-
-  // --- HÀM 3: Định dạng tiền tệ ---
   function formatCurrency(value) {
     return new Intl.NumberFormat("vi-VN", {
       style: "currency",
       currency: "VND",
     }).format(value);
   }
-
-  // --- HÀM 4: Lấy giá trị tiền (dạng số) ---
   function getSelectedPriceValue() {
     const variantRadio = document.querySelector(
       '#variant-options input[name="variant"]:checked'
     );
     return variantRadio ? parseFloat(variantRadio.value) : 0;
   }
-
-  // --- HÀM 5: Lưu giỏ hàng vào localStorage ---
   function saveCart() {
     localStorage.setItem("shoppingCart", JSON.stringify(cartItems));
     updateFloatingCartIcon();
   }
-
-  // --- HÀM 6: Tải giỏ hàng từ localStorage ---
   function loadCart() {
     cartItems = JSON.parse(localStorage.getItem("shoppingCart")) || [];
     updateFloatingCartIcon();
   }
-
-  // --- HÀM 7: Cập nhật Icon Nổi ---
   function updateFloatingCartIcon() {
     const floatingCartButton = document.getElementById("floating-cart-button");
     const cartCountBadge = document.getElementById("floating-cart-count");
@@ -523,8 +548,6 @@
       floatingCartButton.classList.add("hidden");
     }
   }
-
-  // --- HÀM 8: Hiển thị nội dung Modal Giỏ Hàng ---
   function renderCartModal() {
     const cartItemList = document.getElementById("cart-item-list");
     const cartTotalPrice = document.getElementById("cart-total-price");
@@ -553,8 +576,6 @@
     });
     cartTotalPrice.textContent = formatCurrency(total);
   }
-
-  // --- HÀM 9: Thêm sản phẩm vào giỏ ---
   function addToCart(product) {
     if (!product) return;
     const existingItem = cartItems.find(
@@ -573,19 +594,20 @@
 
   // --- HÀM 10 (Gắn logic cho bộ lọc) ---
   function attachFilterListeners() {
-    // Cập nhật lại danh sách nút và bình luận (bao gồm cả bình luận mới)
     filterButtons = document.querySelectorAll(".reviews-filter .filter-btn");
-    commentItems = document.querySelectorAll(".comment-list-pro .comment-item-pro");
+    commentItems = document.querySelectorAll(
+      ".comment-list-pro .comment-item-pro"
+    );
 
-    if (!filterButtons || !commentItems) return; // An toàn
+    if (!filterButtons || !commentItems) return;
 
-    filterButtons.forEach(button => {
-      button.addEventListener("click", function() {
-        filterButtons.forEach(btn => btn.classList.remove("active"));
+    filterButtons.forEach((button) => {
+      button.addEventListener("click", function () {
+        filterButtons.forEach((btn) => btn.classList.remove("active"));
         this.classList.add("active");
         const filterValue = this.dataset.filter;
 
-        commentItems.forEach(comment => {
+        commentItems.forEach((comment) => {
           if (filterValue === "Tất cả") {
             comment.style.display = "flex";
           } else {
@@ -600,16 +622,55 @@
     });
   }
 
+  // --- MỚI: HÀM 12 (TÍNH TOÁN LẠI TÓM TẮT ĐÁNH GIÁ) ---
+  function updateRatingSummary() {
+    // 1. Lấy tất cả bình luận (cũ và mới)
+    const allCommentItems = document.querySelectorAll(
+      ".comment-list-pro .comment-item-pro"
+    );
+
+    let totalReviews = 0;
+    let totalScore = 0;
+    let starCounts = { 5: 0, 4: 0, 3: 0, 2: 0, 1: 0 };
+
+    // 2. Đếm
+    allCommentItems.forEach((comment) => {
+      const rating = parseInt(comment.dataset.rating);
+      if (rating >= 1 && rating <= 5) {
+        totalReviews++;
+        totalScore += rating;
+        starCounts[rating]++;
+      }
+    });
+
+    // 3. Tính toán
+    const averageRating =
+      totalReviews > 0 ? (totalScore / totalReviews).toFixed(1) : 0;
+
+    // 4. Cập nhật HTML
+    document.getElementById("summary-score-number").textContent = averageRating;
+    document.getElementById(
+      "summary-count-text"
+    ).textContent = `(${totalReviews} lượt đánh giá)`;
+    document.getElementById(
+      "reviews-title-pro"
+    ).textContent = `${totalReviews} Bình luận`;
+
+    for (let i = 1; i <= 5; i++) {
+      const percentage =
+        totalReviews > 0 ? (starCounts[i] / totalReviews) * 100 : 0;
+      document.getElementById(`rating-bar-${i}`).style.width = percentage + "%";
+      document.getElementById(`star-count-${i}`).textContent = starCounts[i];
+    }
+  }
 
   /* ============================================= */
   /* CHẠY CODE KHI TRANG ĐÃ TẢI XONG 100%
     /* ============================================= */
   document.addEventListener("DOMContentLoaded", function () {
-    
     // --- LOGIC CHUNG (chạy trên mọi trang) ---
     loadCart();
-    
-    // Gắn listener cho các modal chung (Giỏ hàng, Xác nhận, Checkout)
+
     const cartModal = document.getElementById("cart-modal");
     const closeCartBtnX = document.getElementById("close-cart-btn-x");
     const closeCartModalBtn = document.getElementById("close-cart-modal");
@@ -635,9 +696,9 @@
         );
         const checkoutModal = document.getElementById("checkout-modal");
         const bankAmountSpan = document.getElementById("bank-amount");
-        if(checkoutModal && bankAmountSpan) {
-            bankAmountSpan.textContent = formatCurrency(cartTotal);
-            checkoutModal.classList.remove("hidden");
+        if (checkoutModal && bankAmountSpan) {
+          bankAmountSpan.textContent = formatCurrency(cartTotal);
+          checkoutModal.classList.remove("hidden");
         }
       });
     }
@@ -664,22 +725,15 @@
       });
     }
 
-
     // --- "CẦU DAO AN TOÀN" ---
-    // Kiểm tra xem đây có phải là trang sản phẩm không
     const productTitleElement = document.getElementById("product-title");
     if (!productTitleElement) {
-      return; // Dừng script nếu không phải trang sản phẩm
+      return;
     }
-    // ---------------------------------
-    
-    // TỪ ĐÂY TRỞ XUỐNG: LÀ SCRIPT CHỈ CHẠY TRÊN TRANG SẢN PHẨM
-    
-    const productTitle = productTitleElement.textContent;
-    
-    // MỚI: Chỉ cần đọc userInfo, không cần hỏi
-    let userInfo = JSON.parse(localStorage.getItem("userInfo"));
 
+    // TỪ ĐÂY TRỞ XUỐNG: LÀ SCRIPT CHỈ CHẠY TRÊN TRANG SẢN PHẨM
+    const productTitle = productTitleElement.textContent;
+    let userInfo = JSON.parse(localStorage.getItem("userInfo"));
 
     // --- LOGIC 1: TÍNH GIÁ SẢN PHẨM ---
     const variantRadios_DOM = document.querySelectorAll(
@@ -740,7 +794,7 @@
       "transaction-code-group"
     );
     const transactionCodeInput = document.getElementById("transaction-code");
-    
+
     if (buyNowButton) {
       buyNowButton.addEventListener("click", function () {
         const basePrice = getSelectedPriceValue();
@@ -764,15 +818,14 @@
             price: finalUnitPrice,
           },
         ];
-        
-        // --- MỚI: Tự động điền thông tin ---
+
+        // Tự động điền thông tin
         if (userInfo && userInfo.name) {
           document.getElementById("fullname").value = userInfo.name;
         }
         if (userInfo && userInfo.phone) {
           document.getElementById("phone").value = userInfo.phone;
         }
-        // --- KẾT THÚC MỚI ---
 
         const quantity = parseInt(quantityInput_DOM.value);
         const totalVoucherDiscount = baseVoucher * quantity;
@@ -796,20 +849,20 @@
         }
       });
     }
-    if(paymentRadios) {
-        paymentRadios.forEach((radio) => {
-          radio.addEventListener("change", function () {
-            if (this.value === "bank") {
-              bankInfoDetails.classList.remove("hidden");
-              transactionCodeGroup.classList.remove("hidden");
-              confirmOrderBtn.textContent = "Xác nhận đã chuyển tiền";
-            } else {
-              bankInfoDetails.classList.add("hidden");
-              transactionCodeGroup.classList.add("hidden");
-              confirmOrderBtn.textContent = "Xác nhận đặt hàng";
-            }
-          });
+    if (paymentRadios) {
+      paymentRadios.forEach((radio) => {
+        radio.addEventListener("change", function () {
+          if (this.value === "bank") {
+            bankInfoDetails.classList.remove("hidden");
+            transactionCodeGroup.classList.remove("hidden");
+            confirmOrderBtn.textContent = "Xác nhận đã chuyển tiền";
+          } else {
+            bankInfoDetails.classList.add("hidden");
+            transactionCodeGroup.classList.add("hidden");
+            confirmOrderBtn.textContent = "Xác nhận đặt hàng";
+          }
         });
+      });
     }
     if (confirmOrderBtn) {
       confirmOrderBtn.addEventListener("click", function () {
@@ -957,8 +1010,7 @@
     }
 
     // --- LOGIC 10 (LỌC BÌNH LUẬN) ---
-    attachFilterListeners(); // Gọi hàm để gắn logic cho các nút lọc
-
+    attachFilterListeners();
 
     // --- LOGIC 11 (GỬI BÌNH LUẬN) ---
     const submitCommentBtn = document.getElementById("submit-comment-btn");
@@ -966,12 +1018,14 @@
     const commentListContainer = document.getElementById("comment-list-pro");
 
     if (submitCommentBtn) {
-      submitCommentBtn.addEventListener("click", function(e) {
-        e.preventDefault(); 
-        
+      submitCommentBtn.addEventListener("click", function (e) {
+        e.preventDefault();
+
         const commentText = commentTextarea.value.trim();
-        const ratingInput = document.querySelector('.comment-star-input input[name="rating"]:checked');
-        
+        const ratingInput = document.querySelector(
+          '.comment-star-input input[name="rating"]:checked'
+        );
+
         if (!ratingInput) {
           alert("Vui lòng chọn số sao đánh giá.");
           return;
@@ -980,14 +1034,13 @@
           alert("Vui lòng nhập nội dung bình luận.");
           return;
         }
-        
+
         const ratingValue = ratingInput.value;
         const starText = "★".repeat(ratingValue) + "☆".repeat(5 - ratingValue);
-        
-        // LẤY TÊN USER TỪ LOCALSTORAGE (biến 'userInfo' đã được lấy ở trên)
-        let userName = (userInfo && userInfo.name) ? userInfo.name : 'Khách';
+
+        let userName = userInfo && userInfo.name ? userInfo.name : "Khách";
         let avatarLetter = userName.charAt(0).toUpperCase();
-        
+
         const newCommentHTML = `
           <div class="comment-item-pro" data-rating="${ratingValue}">
             <div class="comment-avatar">${avatarLetter}</div>
@@ -1001,18 +1054,22 @@
             </div>
           </div>
         `;
-        
+
         commentListContainer.insertAdjacentHTML("afterbegin", newCommentHTML);
-        
+
         commentTextarea.value = "";
         ratingInput.checked = false;
-        document.getElementById('char-counter').textContent = '0/3000';
-        
-        // CẬP NHẬT LẠI BỘ LỌC
+        document.getElementById("char-counter").textContent = "0/3000";
+
+        // CẬP NHẬT LẠI BỘ LỌC VÀ TÓM TẮT
         attachFilterListeners();
+        updateRatingSummary(); // <-- MỚI: Gọi hàm tính toán lại
       });
     }
 
+    // --- MỚI: LOGIC 12 (TÍNH TOÁN BAN ĐẦU) ---
+    // Chạy hàm tính toán tóm tắt 1 lần khi tải trang
+    updateRatingSummary();
   }); // <-- Kết thúc DOMContentLoaded
 </script>
 

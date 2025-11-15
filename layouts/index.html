@@ -21,12 +21,8 @@
     {{ end }}
 
     <div class="search-container">
-      <input type="text" id="search-input" placeholder="Tìm kiếm...">
-      
-      <span class="search-icon">
-        <img src="{{ "images/search-icon.png" | relURL }}" alt="Tìm" />
-      </span>
-
+      <input type="text" id="search-input" placeholder="Tìm kiếm">
+      <i class="fas fa-search search-icon"></i>
       <div id="search-results-container" class="search-results-container hidden">
         </div>
     </div>
@@ -56,12 +52,15 @@
 
 <div id="user-info-modal" class="modal-overlay hidden">
   <div class="modal-content" style="max-width: 400px;">
+    
+    <span class="close-modal" id="close-welcome-modal">&times;</span>
     <h2>Chào mừng!</h2>
-    <p>Cho chúng mình xin thông tin liên hệ nhé!</p>
+    <p>Vui lòng nhập tên của bạn để bình luận (chỉ cần nhập 1 lần):</p>
 
     <div class="voucher-promo-message">
-      🎉Tặng voucher giảm giá khi bạn là sinh viên ĐH KHTN🎆
+      🎉 Tặng voucher giảm giá khi bạn là SINH VIÊN ĐH KHTN !!! 🎆
     </div>
+
     <div id="user-info-form">
       <div class="form-group">
         <label for="user-name">Tên của bạn</label>
@@ -103,10 +102,12 @@
     const saveUserInfoBtn = document.getElementById("save-user-info");
     const userNameInput = document.getElementById("user-name");
     const userPhoneInput = document.getElementById("user-phone");
+    
+    // --- MỚI: Lấy nút X ---
+    const closeWelcomeModalBtn = document.getElementById("close-welcome-modal");
 
     let userInfo = JSON.parse(localStorage.getItem("userInfo"));
     if (!userInfo || !userInfo.name) {
-      // Nếu chưa có tên, bắt buộc hiển thị modal
       userInfoModal.classList.remove("hidden");
     }
 
@@ -124,6 +125,15 @@
       
       userInfoModal.classList.add("hidden");
     });
+    
+    // --- MỚI: Thêm sự kiện click cho nút X ---
+    if (closeWelcomeModalBtn) {
+      closeWelcomeModalBtn.addEventListener("click", function() {
+        userInfoModal.classList.add("hidden");
+      });
+    }
+    // --- KẾT THÚC LOGIC 2 ---
+
 
     // --- MỚI: LOGIC 3 (TÌM KIẾM SẢN PHẨM) ---
     const searchInput = document.getElementById("search-input");
