@@ -11,20 +11,78 @@
     {{ hugo.Generator }}
 
     <style>
-        /* CSS Popup Chào mừng */
-        #user-info-modal .modal-content { text-align: center; max-width: 400px; }
-        .promo-text { color: #d70018; font-weight: bold; font-size: 1.1rem; margin-bottom: 20px; }
-        .voucher-box-dashed { border: 2px dashed #d70018; background-color: #fff0f0; padding: 15px; border-radius: 8px; margin-bottom: 20px; color: #d70018; font-weight: 700; }
-        .input-group { text-align: left; margin-bottom: 15px; }
-        .input-group label { display: block; font-weight: 600; margin-bottom: 5px; }
-        .input-group input { width: 100%; padding: 10px; border: 1px solid #ccc; border-radius: 5px; font-size: 1rem; }
-        #save-user-info { width: 100%; background: #007bff; color: white; padding: 12px; border: none; border-radius: 5px; font-weight: bold; cursor: pointer; margin-top: 10px; }
+        /* CSS POPUP CHÀO MỪNG (CHUẨN MẪU 100%) */
+        #user-info-modal .modal-content { 
+            text-align: center; 
+            max-width: 420px; /* Rộng hơn chút cho thoáng */
+            padding: 30px;
+            border-radius: 12px;
+        }
         
-        /* CSS Modal Thanh Toán */
+        #user-info-modal h2 { 
+            font-size: 2.2rem; 
+            font-weight: 800; 
+            margin-bottom: 10px; 
+            color: #333;
+            border: none; /* Bỏ gạch chân nếu có */
+        }
+        
+        .promo-text { 
+            color: #d70018; 
+            font-weight: 700; 
+            font-size: 1.15rem; 
+            margin-bottom: 20px; 
+        }
+        
+        /* Khung Voucher nét đứt hồng */
+        .voucher-box-dashed { 
+            border: 2px dashed #d70018; 
+            background-color: #fff5f5; /* Nền hồng nhạt */
+            padding: 15px; 
+            border-radius: 8px; 
+            margin-bottom: 25px; 
+            color: #d70018; 
+            font-weight: 700;
+            font-size: 0.95rem;
+            line-height: 1.5;
+        }
+        
+        /* Ô nhập liệu */
+        .input-group { text-align: left; margin-bottom: 15px; }
+        .input-group label { 
+            display: block; 
+            font-weight: 600; 
+            margin-bottom: 8px; 
+            color: #333;
+        }
+        .input-group input { 
+            width: 100%; 
+            padding: 12px; 
+            border: 1px solid #ddd; 
+            border-radius: 6px; 
+            font-size: 1rem; 
+            color: #333;
+        }
+        .input-group input::placeholder { color: #aaa; } /* Placeholder mờ */
+        
+        /* Nút Lưu thông tin */
+        #save-user-info { 
+            width: 100%; 
+            background: #007bff; /* Xanh dương chuẩn */
+            color: white; 
+            padding: 12px; 
+            border: none; 
+            border-radius: 6px; 
+            font-weight: 700; 
+            font-size: 1rem; 
+            cursor: pointer; 
+            margin-top: 15px; 
+            transition: background 0.2s;
+        }
+        #save-user-info:hover { background: #0056b3; }
+        
+        /* CSS Modal Thanh Toán & Giỏ Hàng (Giữ nguyên) */
         #global-checkout-modal .modal-content { width: 95%; max-width: 600px; padding: 30px; text-align: left; position: relative; }
-        #global-checkout-modal h2 { border-bottom: none; padding-bottom: 0; margin-bottom: 20px; font-size: 1.5rem; font-weight: 700; }
-        .address-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; }
-        #global-bank-info { background: #f0f8ff; border: 1px dashed #007bff; padding: 15px; border-radius: 8px; margin-top: 10px; margin-bottom: 15px; }
         .btn-red-confirm { width: 100%; background: #d70018; color: white; padding: 15px; border: none; border-radius: 5px; font-weight: 700; font-size: 1.1rem; cursor: pointer; margin-top: 20px; }
     </style>
 </head>
@@ -52,43 +110,39 @@
         <div class="footer-wrapper">
             <div class="footer-col">
                 <h3>Mobile Center</h3>
-                <p style="color: #ccc; line-height: 1.6;">
-                    Hệ thống bán lẻ điện thoại chính hãng uy tín nhất. <br>
-                    Cam kết chất lượng, giá cả cạnh tranh.
-                </p>
+                <p style="color:#ccc;">Hệ thống bán lẻ điện thoại chính hãng uy tín nhất.</p>
             </div>
-
             <div class="footer-col">
-                <h3>Thông tin liên hệ</h3>
+                <h3>Liên hệ</h3>
                 <div class="footer-info">
-                    <p>
-                        <i class="fas fa-phone-alt"></i> 
-                        <a href="tel:0848921193">0848921193</a>
-                    </p>
-                    <p>
-                        <i class="fas fa-envelope"></i> 
-                        <a href="mailto:dbinh1312@gmail.com">dbinh1312@gmail.com</a>
-                    </p>
-                    <p>
-                        <i class="fab fa-facebook-f"></i> 
-                        <a href="https://www.facebook.com/ltdb.2910" target="_blank">Lê Trịnh Duy Bình</a>
-                    </p>
+                    <p><i class="fas fa-phone-alt"></i> 0848921193</p>
+                    <p><i class="fab fa-facebook-f"></i> Lê Trịnh Duy Bình</p>
                 </div>
             </div>
         </div>
-        
-        <div class="copyright">
-            &copy; 2025 Mobile Center. All rights reserved.
-        </div>
+        <div class="copyright">&copy; 2025 Mobile Center. All rights reserved.</div>
     </footer>
 
     <div id="user-info-modal" class="modal-overlay hidden" data-locked="true">
         <div class="modal-content">
             <h2>Chào mừng!</h2>
+            
             <p class="promo-text">Cho chúng mình xin thông tin liên hệ nhé !!!</p>
-            <div class="voucher-box-dashed">🎉 Tặng voucher giảm giá khi bạn là sinh viên ĐH KHTN !!! 🎆</div>
-            <div class="input-group"><label>Tên của bạn <span style="color:red">*</span></label><input type="text" id="user-name-input"></div>
-            <div class="input-group"><label>Số điện thoại <span style="color:red">*</span></label><input type="tel" id="user-phone-input"></div>
+            
+            <div class="voucher-box-dashed">
+                🎉 Tặng voucher giảm giá khi bạn là sinh viên ĐH KHTN !!! 🎆
+            </div>
+            
+            <div class="input-group">
+                <label>Tên của bạn <span style="color:red">*</span></label>
+                <input type="text" id="user-name-input" placeholder="Nguyễn Văn A">
+            </div>
+            
+            <div class="input-group">
+                <label>Số điện thoại <span style="color:red">*</span></label>
+                <input type="tel" id="user-phone-input" placeholder="09xxxxxxxx">
+            </div>
+            
             <button id="save-user-info">Lưu thông tin</button>
         </div>
     </div>
@@ -121,26 +175,24 @@
                 
                 <div class="input-group">
                     <label>Họ và Tên <span style="color:red">*</span></label>
-                    <input type="text" id="bill-name">
+                    <input type="text" id="bill-name" placeholder="Nguyễn Văn A">
                 </div>
                 <div class="input-group">
                     <label>Số điện thoại <span style="color:red">*</span></label>
-                    <input type="text" id="bill-phone">
+                    <input type="text" id="bill-phone" placeholder="09xxxxxxxx">
                 </div>
                 <div class="input-group">
                     <label>Địa chỉ (Số nhà, Tên đường) <span style="color:red">*</span></label>
                     <input type="text" id="bill-address" placeholder="123 Đường ABC">
                 </div>
+                
                 <div class="address-grid">
-                    <div class="input-group"><label>Phường/Xã <span style="color:red">*</span></label><input type="text" id="bill-ward"></div>
-                    <div class="input-group"><label>Quận/Huyện <span style="color:red">*</span></label><input type="text" id="bill-district"></div>
+                    <div class="input-group"><label>Phường/Xã <span style="color:red">*</span></label><input type="text" id="bill-ward" placeholder="Phường 1"></div>
+                    <div class="input-group"><label>Quận/Huyện <span style="color:red">*</span></label><input type="text" id="bill-district" placeholder="Quận 1"></div>
                 </div>
-                <div class="input-group">
-                    <label>Tỉnh/Thành phố <span style="color:red">*</span></label>
-                    <input type="text" id="bill-city" placeholder="TP. Hồ Chí Minh">
-                </div>
+                <div class="input-group"><label>Tỉnh/Thành phố <span style="color:red">*</span></label><input type="text" id="bill-city" placeholder="TP. Hồ Chí Minh"></div>
 
-                <hr style="border:0; border-top:1px solid #eee; margin: 20px 0;">
+                <hr style="margin: 20px 0; border:0; border-top:1px solid #eee;">
 
                 <div class="form-group">
                     <h3 style="font-size:1rem; margin-bottom:10px; font-weight:700;">Phương thức thanh toán</h3>
@@ -153,17 +205,17 @@
                 <div id="global-bank-info" class="hidden">
                     <h4>Thông tin chuyển khoản</h4>
                     <ul>
-                        <li>Số tiền: <strong id="bank-transfer-amount" style="color:#d70018; text-decoration:underline;"></strong></li>
+                        <li>Số tiền: <strong id="bank-transfer-amount" style="color:#d70018;"></strong></li>
                         <li>Ngân hàng: <strong>MB Bank (Ngân hàng Quân đội)</strong></li>
-                        <li>Số tài khoản: <strong>0123456789</strong></li>
-                        <li>Chủ tài khoản: <strong>NGUYEN VAN A</strong></li>
+                        <li>STK: <strong>0123456789</strong></li>
+                        <li>Chủ TK: <strong>NGUYEN VAN A</strong></li>
                         <li>Nội dung: <strong>[SĐT của bạn]</strong></li>
                     </ul>
                 </div>
 
                 <div id="global-transaction-code" class="input-group hidden" style="margin-top:15px;">
                     <label>Mã giao dịch <span style="color:red">*</span></label>
-                    <input type="text" id="bill-transaction-code" placeholder="Nhập mã giao dịch từ ngân hàng của bạn">
+                    <input type="text" id="bill-transaction-code" placeholder="Nhập mã giao dịch">
                 </div>
 
                 <button id="btn-confirm-global" class="btn-red-confirm">Xác nhận đặt hàng</button>
@@ -217,10 +269,7 @@
           total += item.price * item.quantity;
           list.innerHTML += `
             <li style="display:flex; justify-content:space-between; padding:10px 0; border-bottom:1px solid #eee;">
-              <div>
-                <strong>${item.name}</strong> <br>
-                <small>${item.variant} - ${item.color} (x${item.quantity})</small>
-              </div>
+              <div><strong>${item.name}</strong><br><small>${item.variant} - ${item.color} (x${item.quantity})</small></div>
               <div style="text-align:right;">
                   <div style="color:#d70018; font-weight:bold;">${formatCurrencyGlobal(item.price * item.quantity)}</div>
                   <span style="color:red; cursor:pointer; font-size:0.8rem;" onclick="removeCartItem(${index})">Xóa</span>
@@ -240,7 +289,6 @@
       function checkUserPopup() {
           const userInfo = sessionStorage.getItem("userInfo");
           const userModal = document.getElementById("user-info-modal");
-          // Nếu chưa có thông tin -> Hiện popup
           if (!userInfo) {
               setTimeout(() => { userModal.classList.remove("hidden"); }, 500);
           }
@@ -250,26 +298,19 @@
         loadCart();
         checkUserPopup();
 
-        // --- 1. LƯU THÔNG TIN TỪ POPUP ---
+        // Nút Lưu Info
         document.getElementById("save-user-info").addEventListener("click", function() {
             const name = document.getElementById("user-name-input").value.trim();
             const phone = document.getElementById("user-phone-input").value.trim();
-            
             if(name && phone) {
-                const info = { name: name, phone: phone };
-                sessionStorage.setItem("userInfo", JSON.stringify(info));
-                alert("Chào mừng " + name + "!");
+                sessionStorage.setItem("userInfo", JSON.stringify({ name, phone }));
                 document.getElementById("user-info-modal").classList.add("hidden");
-            } else {
-                alert("Vui lòng điền đầy đủ thông tin!");
-            }
+            } else { alert("Vui lòng điền đầy đủ!"); }
         });
 
-        // Chặn tắt popup
         const userModal = document.getElementById("user-info-modal");
         userModal.addEventListener("click", function(e) { if (e.target === userModal) { e.stopPropagation(); } });
 
-        // --- 2. GIỎ HÀNG ---
         document.getElementById("global-cart-button").addEventListener("click", function(e) {
             e.preventDefault();
             renderCart();
@@ -290,18 +331,17 @@
             }
         });
 
-        // --- 3. MỞ THANH TOÁN (TỰ ĐIỀN THÔNG TIN ĐÃ LƯU) ---
-        function openCheckout() {
+        // NÚT THANH TOÁN (SỬA LẠI ĐỂ TỰ ĐIỀN THÔNG TIN)
+        document.getElementById("go-to-checkout").addEventListener("click", function() {
             if(globalCartItems.length === 0) { alert("Giỏ hàng trống!"); return; }
             cartModal.classList.add("hidden");
             
-            // === ĐÂY LÀ ĐOẠN QUAN TRỌNG: LẤY TÊN TỪ SESSION ĐIỀN VÀO FORM ===
+            // === TỰ ĐỘNG ĐIỀN TÊN TỪ SESSION ===
             const userInfo = JSON.parse(sessionStorage.getItem("userInfo"));
             if(userInfo) {
                 document.getElementById("bill-name").value = userInfo.name || "";
                 document.getElementById("bill-phone").value = userInfo.phone || "";
             }
-            // =================================================================
 
             let total = globalCartItems.reduce((acc, item) => acc + item.price * item.quantity, 0);
             document.getElementById("bank-transfer-amount").innerText = formatCurrencyGlobal(total);
@@ -309,12 +349,10 @@
             document.getElementById("global-checkout-form-wrapper").classList.remove("hidden");
             document.getElementById("global-checkout-success").classList.add("hidden");
             checkoutModal.classList.remove("hidden");
-        }
+        });
 
-        document.getElementById("go-to-checkout").addEventListener("click", openCheckout);
         document.getElementById("close-checkout-global").addEventListener("click", () => checkoutModal.classList.add("hidden"));
 
-        // Chuyển đổi thanh toán
         const payRadios = document.querySelectorAll('input[name="global-payment"]');
         const bankInfo = document.getElementById("global-bank-info");
         const transCode = document.getElementById("global-transaction-code");
@@ -332,7 +370,7 @@
             }
         }));
 
-        // --- 4. XÁC NHẬN ĐẶT HÀNG (VALIDATION CHẶT CHẼ) ---
+        // XÁC NHẬN ĐẶT HÀNG
         document.getElementById("btn-confirm-global").addEventListener("click", function() {
             const name = document.getElementById("bill-name").value.trim();
             const phone = document.getElementById("bill-phone").value.trim();
@@ -350,14 +388,13 @@
             if(paymentMethod === 'bank') {
                 const code = document.getElementById("bill-transaction-code").value.trim();
                 if(!code) {
-                    alert("❌ Vui lòng nhập Mã giao dịch chuyển khoản!");
+                    alert("❌ Vui lòng nhập Mã giao dịch!");
                     return;
                 }
             }
 
             let orders = JSON.parse(sessionStorage.getItem("allOrders")) || [];
             let total = globalCartItems.reduce((acc, item) => acc + item.price * item.quantity, 0);
-            
             orders.push({
                 id: Date.now(),
                 customer: { name, phone, address: `${address}, ${ward}, ${district}, ${city}` },
@@ -380,17 +417,16 @@
         });
       });
       
-      // Hàm Mua Ngay (Gọi từ Single Page)
+      // Hàm Mua Ngay (Cũng tự điền)
       window.buyNow = function(item) {
           globalCartItems.push(item);
           sessionStorage.setItem("shoppingCart", JSON.stringify(globalCartItems));
           updateBadge();
           
-          // Mở thanh toán ngay -> JS sẽ tự điền tên
+          // Mở thanh toán -> JS sẽ tự điền
           document.getElementById("go-to-checkout").click();
       };
-
-      // Hàm Thêm Giỏ (Gọi từ Single Page)
+      
       window.addToCartLocal = function(item) {
           loadCart();
           const existing = globalCartItems.find(i => i.name === item.name && i.variant === item.variant && i.color === item.color);
