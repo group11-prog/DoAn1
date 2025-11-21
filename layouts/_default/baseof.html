@@ -20,6 +20,9 @@
         .input-group input { width: 100%; padding: 10px; border: 1px solid #ccc; border-radius: 5px; font-size: 1rem; }
         #save-user-info { width: 100%; background: #007bff; color: white; padding: 12px; border: none; border-radius: 5px; font-weight: bold; cursor: pointer; margin-top: 10px; }
         #save-user-info:hover { background: #0056b3; }
+        
+        /* Class chặn click chuột (khi cần thiết) */
+        .no-click { pointer-events: none; }
     </style>
 </head>
 <body>
@@ -75,18 +78,18 @@
             &copy; 2025 Mobile Center. All rights reserved.
         </div>
     </footer>
-    <div id="user-info-modal" class="modal-overlay hidden">
+
+    <div id="user-info-modal" class="modal-overlay hidden" data-locked="true">
         <div class="modal-content">
-            <span class="close-modal" id="close-user-modal">&times;</span>
             <h2>Chào mừng!</h2>
             <p class="promo-text">Cho chúng mình xin thông tin liên hệ nhé !!!</p>
             <div class="voucher-box-dashed">🎉 Tặng voucher giảm giá khi bạn là sinh viên ĐH KHTN !!! 🎆</div>
             <div class="input-group">
-                <label>Tên của bạn</label>
+                <label>Tên của bạn <span style="color:red">*</span></label>
                 <input type="text" id="user-name-input" placeholder="Nguyễn Văn A">
             </div>
             <div class="input-group">
-                <label>Số điện thoại</label>
+                <label>Số điện thoại <span style="color:red">*</span></label>
                 <input type="tel" id="user-phone-input" placeholder="09xxxxxxxx">
             </div>
             <button id="save-user-info">Lưu thông tin</button>
@@ -161,8 +164,12 @@
       function checkUserPopup() {
           const userInfo = sessionStorage.getItem("userInfo");
           const userModal = document.getElementById("user-info-modal");
+          
+          // Nếu chưa có thông tin thì HIỆN và KHÓA
           if (!userInfo) {
-              setTimeout(() => { userModal.classList.remove("hidden"); }, 500);
+              setTimeout(() => { 
+                  userModal.classList.remove("hidden"); 
+              }, 500);
           }
       }
 
@@ -170,33 +177,53 @@
         loadCart();
         checkUserPopup();
 
+        // Xử lý nút Lưu thông tin
         document.getElementById("save-user-info").addEventListener("click", function() {
-            const name = document.getElementById("user-name-input").value;
-            const phone = document.getElementById("user-phone-input").value;
+            const name = document.getElementById("user-name-input").value.trim();
+            const phone = document.getElementById("user-phone-input").value.trim();
+            
             if(name && phone) {
                 const info = { name: name, phone: phone };
                 sessionStorage.setItem("userInfo", JSON.stringify(info));
                 alert("Chào mừng " + name + "!");
                 document.getElementById("user-info-modal").classList.add("hidden");
             } else {
-                alert("Vui lòng điền đầy đủ!");
+                alert("Vui lòng điền đầy đủ thông tin!");
             }
         });
 
-        document.getElementById("close-user-modal").addEventListener("click", function() {
-            document.getElementById("user-info-modal").classList.add("hidden");
+        // --- LOGIC CHẶN ĐÓNG POPUP ---
+        const userModal = document.getElementById("user-info-modal");
+        
+        // Chặn click ra ngoài (chỉ áp dụng cho modal user)
+        userModal.addEventListener("click", function(e) {
+            // Ngăn chặn sự kiện đóng nếu click vào vùng tối (overlay)
+            if (e.target === userModal) {
+                e.stopPropagation();
+                e.preventDefault();
+                // Có thể thêm hiệu ứng rung lắc ở đây để báo hiệu
+                const content = userModal.querySelector('.modal-content');
+                content.style.transform = "scale(1.02)";
+                setTimeout(() => content.style.transform = "scale(1)", 100);
+            }
         });
 
+        // --- Logic Giỏ hàng (Cho phép đóng bình thường) ---
+        const closeCart = () => cartModal.classList.add("hidden");
+        
         document.getElementById("global-cart-button").addEventListener("click", function(e) {
             e.preventDefault();
             renderCart();
             cartModal.classList.remove("hidden");
         });
         
-        const closeCart = () => cartModal.classList.add("hidden");
         document.getElementById("close-cart-btn-x").addEventListener("click", closeCart);
         document.getElementById("close-cart-modal").addEventListener("click", closeCart);
-        cartModal.addEventListener("click", (e) => { if(e.target === cartModal) closeCart(); });
+        
+        // Giỏ hàng thì CHO PHÉP click ra ngoài để đóng
+        cartModal.addEventListener("click", (e) => { 
+            if(e.target === cartModal) closeCart(); 
+        });
 
         document.getElementById("clear-cart-button").addEventListener("click", function() {
             if(confirm("Xóa hết giỏ hàng?")) {
