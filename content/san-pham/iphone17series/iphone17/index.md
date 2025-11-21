@@ -1,13 +1,10 @@
 +++
-# --- Thông tin cơ bản ---
 title = "iPhone 17"
-date = 2025-09-09T00:01:00Z # (Ngày ra mắt)
+date = 2025-09-09T00:01:00Z 
 description = "Nâng cấp vượt bậc với màn hình ProMotion 120Hz, chip A19, camera kép 48MP và Apple Intelligence."
 summary = "iPhone 17 chính hãng VN/A. Màn hình 6.3\" 120Hz, Chip A19, 8GB RAM, Camera 48MP."
-# (Bạn cần tự thêm ảnh này vào /static/images/ nhé)
 featured_image = "/images/iphone-17-white.jpeg" 
-series = "iPhone 17 Series" # <--- THÊM DÒNG NÀY
-# --- Thông số nhanh (Lấy từ TGDĐ/FPTShop) ---
+series = "iPhone 17 Series" 
 specifications = [
     "Màn hình Super Retina XDR 6.3 inch (lớn hơn)",
     "Màn hình ProMotion 120Hz (lần đầu có trên bản thường)",
@@ -18,7 +15,6 @@ specifications = [
     "Camera trước 18MP tự động lấy nét"
 ]
 
-# --- TÙY CHỌN SẢN PHẨM (Giá tham khảo máy mới VN/A tại TGDĐ - 11/2025) ---
 variants = [
     { name = "256GB", price = 24990000 },
     { name = "512GB", price = 31490000 }
@@ -31,7 +27,6 @@ colors = [
     { name = "Đen (Black)", hex = "#3E3B39" }
 ]
 
-# --- Thông số kỹ thuật (cho Tab) ---
 technical_specs = [
     { name = "Màn hình", value = "LTPO OLED, 6.3\", Super Retina XDR, ProMotion 120Hz" },
     { name = "Hệ điều hành", value = "iOS 18" },

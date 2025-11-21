@@ -2045,119 +2045,122 @@ body {
 /* CSS CHO FOOTER (CHÂN TRANG) - MỚI
 /* ============================================= */
 .site-footer {
-    background-color: #111; /* Nền đen sang trọng */
-    color: #fff;
-    padding: 50px 0 20px;
-    margin-top: 60px;
-    font-size: 0.95rem;
+  background-color: #111; /* Nền đen sang trọng */
+  color: #fff;
+  padding: 50px 0 20px;
+  margin-top: 60px;
+  font-size: 0.95rem;
 }
 
 .footer-wrapper {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: space-between;
-    max-width: 1200px;
-    margin: 0 auto;
-    padding: 0 20px;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 20px;
 }
 
 .footer-col {
-    flex: 1;
-    min-width: 250px;
-    margin-bottom: 30px;
+  flex: 1;
+  min-width: 250px;
+  margin-bottom: 30px;
 }
 
 .footer-col h3 {
-    color: #d70018; /* Màu đỏ thương hiệu */
-    font-size: 1.2rem;
-    font-weight: 700;
-    margin-bottom: 20px;
-    text-transform: uppercase;
-    border-bottom: 2px solid #333;
-    display: inline-block;
-    padding-bottom: 5px;
+  color: #d70018; /* Màu đỏ thương hiệu */
+  font-size: 1.2rem;
+  font-weight: 700;
+  margin-bottom: 20px;
+  text-transform: uppercase;
+  border-bottom: 2px solid #333;
+  display: inline-block;
+  padding-bottom: 5px;
 }
 
 .footer-info p {
-    margin-bottom: 12px;
-    display: flex;
-    align-items: center;
-    gap: 10px;
+  margin-bottom: 12px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
 }
 
 .footer-info i {
-    color: #d70018;
-    width: 20px;
-    text-align: center;
+  color: #d70018;
+  width: 20px;
+  text-align: center;
 }
 
 .footer-info a {
-    color: #ccc;
-    text-decoration: none;
-    transition: 0.3s;
+  color: #ccc;
+  text-decoration: none;
+  transition: 0.3s;
 }
 
 .footer-info a:hover {
-    color: #fff;
-    text-decoration: underline;
+  color: #fff;
+  text-decoration: underline;
 }
 
 .copyright {
-    text-align: center;
-    border-top: 1px solid #333;
-    padding-top: 20px;
-    margin-top: 20px;
-    color: #666;
-    font-size: 0.85rem;
+  text-align: center;
+  border-top: 1px solid #333;
+  padding-top: 20px;
+  margin-top: 20px;
+  color: #666;
+  font-size: 0.85rem;
 }
 /* --- LÀM ĐẸP THÔNG SỐ KỸ THUẬT (SPECS LIST - CARD STYLE) --- */
 
 /* Khung chứa chung */
 .specs-list {
-    margin-bottom: 25px;
-    padding: 10px 0;
+  margin-bottom: 25px;
+  padding: 10px 0;
 }
 
 /* Danh sách dạng lưới */
 .specs-list ul {
-    list-style: none !important; /* Bỏ gạch đầu dòng mặc định */
-    padding: 0;
-    margin: 0;
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); /* Tự động chia cột, tối thiểu 200px/cột */
-    gap: 15px; /* Khoảng cách giữa các thẻ */
+  list-style: none !important; /* Bỏ gạch đầu dòng mặc định */
+  padding: 0;
+  margin: 0;
+  display: grid;
+  grid-template-columns: repeat(
+    auto-fit,
+    minmax(200px, 1fr)
+  ); /* Tự động chia cột, tối thiểu 200px/cột */
+  gap: 15px; /* Khoảng cách giữa các thẻ */
 }
 
 /* Từng thẻ thông số */
 .specs-list li {
-    background-color: #f8f9fa; /* Nền xám sáng */
-    border: 1px solid #e9ecef; /* Viền mỏng */
-    border-radius: 10px;       /* Bo tròn góc */
-    padding: 15px;
-    display: flex;
-    align-items: center;
-    color: #333;
-    font-weight: 500;
-    font-size: 0.95rem;
-    transition: all 0.3s ease;
+  background-color: #f8f9fa; /* Nền xám sáng */
+  border: 1px solid #e9ecef; /* Viền mỏng */
+  border-radius: 10px; /* Bo tròn góc */
+  padding: 15px;
+  display: flex;
+  align-items: center;
+  color: #333;
+  font-weight: 500;
+  font-size: 0.95rem;
+  transition: all 0.3s ease;
 }
 
 /* Hiệu ứng hover cho thẻ */
 .specs-list li:hover {
-    background-color: #fff;
-    border-color: #007bff; /* Đổi màu viền khi di chuột */
-    box-shadow: 0 5px 15px rgba(0, 123, 255, 0.1); /* Bóng đổ xanh nhẹ */
-    transform: translateY(-3px); /* Nổi lên nhẹ */
+  background-color: #fff;
+  border-color: #007bff; /* Đổi màu viền khi di chuột */
+  box-shadow: 0 5px 15px rgba(0, 123, 255, 0.1); /* Bóng đổ xanh nhẹ */
+  transform: translateY(-3px); /* Nổi lên nhẹ */
 }
 
 /* Thêm icon trước mỗi dòng (Dùng FontAwesome) */
 .specs-list li::before {
-    content: "\f2db"; /* Mã icon chip điện tử (microchip) */
-    font-family: "Font Awesome 5 Free";
-    font-weight: 900;
-    font-size: 1.4rem;
-    color: #007bff; /* Màu icon xanh nổi bật */
-    margin-right: 15px; /* Khoảng cách giữa icon và chữ */
+  content: "\f2db"; /* Mã icon chip điện tử (microchip) */
+  font-family: "Font Awesome 5 Free";
+  font-weight: 900;
+  font-size: 1.4rem;
+  color: #007bff; /* Màu icon xanh nổi bật */
+  margin-right: 15px; /* Khoảng cách giữa icon và chữ */
 }
 /* --- FIX LỖI DẤU THĂNG (#) TRONG MÔ TẢ SẢN PHẨM --- */
 
@@ -2168,13 +2171,149 @@ body {
 .content-body h4 a,
 .content-body h5 a,
 .content-body h6 a {
-    display: none !important; /* Ẩn tiệt */
-    pointer-events: none;     /* Không cho bấm vào */
+  display: none !important; /* Ẩn tiệt */
+  pointer-events: none; /* Không cho bấm vào */
 }
 
 /* (Tùy chọn) Làm đẹp lại tiêu đề nếu cần */
 .content-body h2 {
-    border-bottom: none !important; /* Xóa gạch chân nếu có */
-    margin-top: 30px;
-    margin-bottom: 15px;
+  border-bottom: none !important; /* Xóa gạch chân nếu có */
+  margin-top: 30px;
+  margin-bottom: 15px;
+}
+/* --- CSS CHO FORM THANH TOÁN (BỔ SUNG) --- */
+.payment-options label {
+  display: flex;
+  align-items: center;
+  background: #f9f9f9;
+  padding: 12px;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  margin-bottom: 8px;
+  cursor: pointer;
+  transition: 0.2s;
+}
+.payment-options label:hover {
+  background: #f0f8ff;
+  border-color: #007bff;
+}
+.payment-options input[type="radio"] {
+  margin-right: 10px;
+  display: inline-block !important; /* Hiện lại nút radio */
+  width: auto !important;
+  transform: scale(1.2);
+}
+.btn-red-confirm {
+  width: 100%;
+  background: #d70018;
+  color: white;
+  padding: 15px;
+  border: none;
+  border-radius: 5px;
+  font-weight: 700;
+  font-size: 1.1rem;
+  cursor: pointer;
+  margin-top: 20px;
+  text-transform: uppercase;
+}
+.btn-red-confirm:hover {
+  background: #c40016;
+}
+/* --- CSS MODAL THANH TOÁN TOÀN CỤC (CHUẨN THEO ẢNH) --- */
+#global-checkout-modal .modal-content {
+  width: 95%;
+  max-width: 600px;
+  padding: 25px;
+  text-align: left;
+  border-radius: 8px;
+}
+#global-checkout-modal h2 {
+  border-bottom: 1px solid #eee;
+  padding-bottom: 15px;
+  margin-bottom: 20px;
+  font-size: 1.5rem;
+  font-weight: 700;
+}
+
+/* Form nhập liệu */
+.input-group {
+  margin-bottom: 15px;
+}
+.input-group label {
+  display: block;
+  font-weight: 600;
+  margin-bottom: 5px;
+}
+.input-group input {
+  width: 100%;
+  padding: 10px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  font-size: 1rem;
+}
+
+/* Lưới địa chỉ */
+.address-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 15px;
+}
+
+/* Phương thức thanh toán */
+.payment-options label {
+  display: flex;
+  align-items: center;
+  background: #fff;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  padding: 10px;
+  margin-bottom: 10px;
+  cursor: pointer;
+}
+.payment-options input[type="radio"] {
+  margin-right: 10px;
+  transform: scale(1.2);
+}
+
+/* Khung thông tin chuyển khoản (Nét đứt xanh) */
+#global-bank-info {
+  background: #f0f8ff;
+  border: 1px dashed #007bff;
+  padding: 15px;
+  border-radius: 5px;
+  margin-top: 10px;
+  font-size: 0.95rem;
+}
+#global-bank-info h4 {
+  color: #007bff;
+  margin: 0 0 5px 0;
+  font-weight: 700;
+}
+#global-bank-info ul {
+  list-style: none;
+  padding: 0;
+  line-height: 1.6;
+}
+
+/* Nút xác nhận màu đỏ */
+.btn-red-confirm {
+  width: 100%;
+  background: #d70018;
+  color: white;
+  padding: 12px;
+  border: none;
+  border-radius: 5px;
+  font-weight: 700;
+  font-size: 1.1rem;
+  cursor: pointer;
+  margin-top: 15px;
+}
+.btn-red-confirm:hover {
+  background: #c40016;
+}
+
+/* Màn hình thành công */
+#global-checkout-success h2 {
+  color: #28a745 !important;
+  border: none;
 }

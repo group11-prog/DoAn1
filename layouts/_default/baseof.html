@@ -11,18 +11,21 @@
     {{ hugo.Generator }}
 
     <style>
+        /* CSS Popup Chào mừng */
         #user-info-modal .modal-content { text-align: center; max-width: 400px; }
-        #user-info-modal h2 { font-size: 2rem; font-weight: 800; margin-bottom: 10px; }
         .promo-text { color: #d70018; font-weight: bold; font-size: 1.1rem; margin-bottom: 20px; }
         .voucher-box-dashed { border: 2px dashed #d70018; background-color: #fff0f0; padding: 15px; border-radius: 8px; margin-bottom: 20px; color: #d70018; font-weight: 700; }
         .input-group { text-align: left; margin-bottom: 15px; }
         .input-group label { display: block; font-weight: 600; margin-bottom: 5px; }
         .input-group input { width: 100%; padding: 10px; border: 1px solid #ccc; border-radius: 5px; font-size: 1rem; }
         #save-user-info { width: 100%; background: #007bff; color: white; padding: 12px; border: none; border-radius: 5px; font-weight: bold; cursor: pointer; margin-top: 10px; }
-        #save-user-info:hover { background: #0056b3; }
         
-        /* Class chặn click chuột (khi cần thiết) */
-        .no-click { pointer-events: none; }
+        /* CSS Modal Thanh Toán */
+        #global-checkout-modal .modal-content { width: 95%; max-width: 600px; padding: 30px; text-align: left; position: relative; }
+        #global-checkout-modal h2 { border-bottom: none; padding-bottom: 0; margin-bottom: 20px; font-size: 1.5rem; font-weight: 700; }
+        .address-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; }
+        #global-bank-info { background: #f0f8ff; border: 1px dashed #007bff; padding: 15px; border-radius: 8px; margin-top: 10px; margin-bottom: 15px; }
+        .btn-red-confirm { width: 100%; background: #d70018; color: white; padding: 15px; border: none; border-radius: 5px; font-weight: 700; font-size: 1.1rem; cursor: pointer; margin-top: 20px; }
     </style>
 </head>
 <body>
@@ -84,14 +87,8 @@
             <h2>Chào mừng!</h2>
             <p class="promo-text">Cho chúng mình xin thông tin liên hệ nhé !!!</p>
             <div class="voucher-box-dashed">🎉 Tặng voucher giảm giá khi bạn là sinh viên ĐH KHTN !!! 🎆</div>
-            <div class="input-group">
-                <label>Tên của bạn <span style="color:red">*</span></label>
-                <input type="text" id="user-name-input" placeholder="Nguyễn Văn A">
-            </div>
-            <div class="input-group">
-                <label>Số điện thoại <span style="color:red">*</span></label>
-                <input type="tel" id="user-phone-input" placeholder="09xxxxxxxx">
-            </div>
+            <div class="input-group"><label>Tên của bạn <span style="color:red">*</span></label><input type="text" id="user-name-input"></div>
+            <div class="input-group"><label>Số điện thoại <span style="color:red">*</span></label><input type="tel" id="user-phone-input"></div>
             <button id="save-user-info">Lưu thông tin</button>
         </div>
     </div>
@@ -99,18 +96,83 @@
     <div id="cart-modal" class="modal-overlay hidden">
         <div class="modal-content">
             <span class="close-modal" id="close-cart-btn-x">&times;</span>
-            <h2>Giỏ hàng của bạn</h2>
+            <h2 style="border-bottom:1px solid #eee; padding-bottom:10px;">Giỏ hàng của bạn</h2>
             <ul id="cart-item-list"></ul>
             <div class="cart-total">
                 <strong>Tổng cộng:</strong>
-                <strong id="cart-total-price">0đ</strong>
+                <strong id="cart-total-price" style="color:#d70018;">0đ</strong>
             </div>
             <div style="text-align:right; margin-top:10px;">
                 <button id="clear-cart-button" style="background:none; border:none; color:red; text-decoration:underline; cursor:pointer;">Xóa giỏ hàng</button>
             </div>
             <div class="cart-buttons">
-                <button id="close-cart-modal">Tiếp tục mua</button>
-                <button id="go-to-checkout">Thanh toán</button>
+                <button id="close-cart-modal" style="background:#eee;">Tiếp tục mua</button>
+                <button id="go-to-checkout" style="background:#007bff; color:white;">Thanh toán</button>
+            </div>
+        </div>
+    </div>
+
+    <div id="global-checkout-modal" class="modal-overlay hidden">
+        <div class="modal-content">
+            <span class="close-modal" id="close-checkout-global">&times;</span>
+            
+            <div id="global-checkout-form-wrapper">
+                <h2>Thông tin thanh toán</h2>
+                
+                <div class="input-group">
+                    <label>Họ và Tên <span style="color:red">*</span></label>
+                    <input type="text" id="bill-name">
+                </div>
+                <div class="input-group">
+                    <label>Số điện thoại <span style="color:red">*</span></label>
+                    <input type="text" id="bill-phone">
+                </div>
+                <div class="input-group">
+                    <label>Địa chỉ (Số nhà, Tên đường) <span style="color:red">*</span></label>
+                    <input type="text" id="bill-address" placeholder="123 Đường ABC">
+                </div>
+                <div class="address-grid">
+                    <div class="input-group"><label>Phường/Xã <span style="color:red">*</span></label><input type="text" id="bill-ward"></div>
+                    <div class="input-group"><label>Quận/Huyện <span style="color:red">*</span></label><input type="text" id="bill-district"></div>
+                </div>
+                <div class="input-group">
+                    <label>Tỉnh/Thành phố <span style="color:red">*</span></label>
+                    <input type="text" id="bill-city" placeholder="TP. Hồ Chí Minh">
+                </div>
+
+                <hr style="border:0; border-top:1px solid #eee; margin: 20px 0;">
+
+                <div class="form-group">
+                    <h3 style="font-size:1rem; margin-bottom:10px; font-weight:700;">Phương thức thanh toán</h3>
+                    <div class="payment-options">
+                        <label><input type="radio" name="global-payment" value="cod" checked> Thanh toán khi nhận hàng (COD)</label>
+                        <label><input type="radio" name="global-payment" value="bank"> Chuyển khoản ngân hàng</label>
+                    </div>
+                </div>
+
+                <div id="global-bank-info" class="hidden">
+                    <h4>Thông tin chuyển khoản</h4>
+                    <ul>
+                        <li>Số tiền: <strong id="bank-transfer-amount" style="color:#d70018; text-decoration:underline;"></strong></li>
+                        <li>Ngân hàng: <strong>MB Bank (Ngân hàng Quân đội)</strong></li>
+                        <li>Số tài khoản: <strong>0123456789</strong></li>
+                        <li>Chủ tài khoản: <strong>NGUYEN VAN A</strong></li>
+                        <li>Nội dung: <strong>[SĐT của bạn]</strong></li>
+                    </ul>
+                </div>
+
+                <div id="global-transaction-code" class="input-group hidden" style="margin-top:15px;">
+                    <label>Mã giao dịch <span style="color:red">*</span></label>
+                    <input type="text" id="bill-transaction-code" placeholder="Nhập mã giao dịch từ ngân hàng của bạn">
+                </div>
+
+                <button id="btn-confirm-global" class="btn-red-confirm">Xác nhận đặt hàng</button>
+            </div>
+
+            <div id="global-checkout-success" class="hidden" style="text-align: center; padding: 40px 0;">
+                <h2 style="color: #28a745; font-size: 2rem; margin-bottom: 15px;">Đặt hàng thành công!</h2>
+                <p style="font-size: 1.1rem; margin-bottom: 10px;">Cảm ơn bạn đã mua hàng</p>
+                <p style="color: #666;">Chúng tôi sẽ chuyển hướng sau 3 giây...</p>
             </div>
         </div>
     </div>
@@ -122,6 +184,7 @@
       
       let globalCartItems = [];
       const cartModal = document.getElementById("cart-modal");
+      const checkoutModal = document.getElementById("global-checkout-modal");
       const badge = document.getElementById("global-cart-badge");
 
       function updateBadge() {
@@ -150,26 +213,36 @@
           totalEl.textContent = formatCurrencyGlobal(0);
           return;
         }
-        globalCartItems.forEach((item) => {
+        globalCartItems.forEach((item, index) => {
           total += item.price * item.quantity;
           list.innerHTML += `
             <li style="display:flex; justify-content:space-between; padding:10px 0; border-bottom:1px solid #eee;">
-              <div><strong>${item.name}</strong><br><small>${item.variant} - ${item.color} (x${item.quantity})</small></div>
-              <div style="color:#d70018; font-weight:bold;">${formatCurrencyGlobal(item.price * item.quantity)}</div>
+              <div>
+                <strong>${item.name}</strong> <br>
+                <small>${item.variant} - ${item.color} (x${item.quantity})</small>
+              </div>
+              <div style="text-align:right;">
+                  <div style="color:#d70018; font-weight:bold;">${formatCurrencyGlobal(item.price * item.quantity)}</div>
+                  <span style="color:red; cursor:pointer; font-size:0.8rem;" onclick="removeCartItem(${index})">Xóa</span>
+              </div>
             </li>`;
         });
         totalEl.textContent = formatCurrencyGlobal(total);
       }
       
+      window.removeCartItem = function(index) {
+          globalCartItems.splice(index, 1);
+          sessionStorage.setItem("shoppingCart", JSON.stringify(globalCartItems));
+          renderCart();
+          updateBadge();
+      }
+
       function checkUserPopup() {
           const userInfo = sessionStorage.getItem("userInfo");
           const userModal = document.getElementById("user-info-modal");
-          
-          // Nếu chưa có thông tin thì HIỆN và KHÓA
+          // Nếu chưa có thông tin -> Hiện popup
           if (!userInfo) {
-              setTimeout(() => { 
-                  userModal.classList.remove("hidden"); 
-              }, 500);
+              setTimeout(() => { userModal.classList.remove("hidden"); }, 500);
           }
       }
 
@@ -177,7 +250,7 @@
         loadCart();
         checkUserPopup();
 
-        // Xử lý nút Lưu thông tin
+        // --- 1. LƯU THÔNG TIN TỪ POPUP ---
         document.getElementById("save-user-info").addEventListener("click", function() {
             const name = document.getElementById("user-name-input").value.trim();
             const phone = document.getElementById("user-phone-input").value.trim();
@@ -192,38 +265,21 @@
             }
         });
 
-        // --- LOGIC CHẶN ĐÓNG POPUP ---
+        // Chặn tắt popup
         const userModal = document.getElementById("user-info-modal");
-        
-        // Chặn click ra ngoài (chỉ áp dụng cho modal user)
-        userModal.addEventListener("click", function(e) {
-            // Ngăn chặn sự kiện đóng nếu click vào vùng tối (overlay)
-            if (e.target === userModal) {
-                e.stopPropagation();
-                e.preventDefault();
-                // Có thể thêm hiệu ứng rung lắc ở đây để báo hiệu
-                const content = userModal.querySelector('.modal-content');
-                content.style.transform = "scale(1.02)";
-                setTimeout(() => content.style.transform = "scale(1)", 100);
-            }
-        });
+        userModal.addEventListener("click", function(e) { if (e.target === userModal) { e.stopPropagation(); } });
 
-        // --- Logic Giỏ hàng (Cho phép đóng bình thường) ---
-        const closeCart = () => cartModal.classList.add("hidden");
-        
+        // --- 2. GIỎ HÀNG ---
         document.getElementById("global-cart-button").addEventListener("click", function(e) {
             e.preventDefault();
             renderCart();
             cartModal.classList.remove("hidden");
         });
         
+        const closeCart = () => cartModal.classList.add("hidden");
         document.getElementById("close-cart-btn-x").addEventListener("click", closeCart);
         document.getElementById("close-cart-modal").addEventListener("click", closeCart);
-        
-        // Giỏ hàng thì CHO PHÉP click ra ngoài để đóng
-        cartModal.addEventListener("click", (e) => { 
-            if(e.target === cartModal) closeCart(); 
-        });
+        cartModal.addEventListener("click", (e) => { if(e.target === cartModal) closeCart(); });
 
         document.getElementById("clear-cart-button").addEventListener("click", function() {
             if(confirm("Xóa hết giỏ hàng?")) {
@@ -233,8 +289,108 @@
                 updateBadge();
             }
         });
+
+        // --- 3. MỞ THANH TOÁN (TỰ ĐIỀN THÔNG TIN ĐÃ LƯU) ---
+        function openCheckout() {
+            if(globalCartItems.length === 0) { alert("Giỏ hàng trống!"); return; }
+            cartModal.classList.add("hidden");
+            
+            // === ĐÂY LÀ ĐOẠN QUAN TRỌNG: LẤY TÊN TỪ SESSION ĐIỀN VÀO FORM ===
+            const userInfo = JSON.parse(sessionStorage.getItem("userInfo"));
+            if(userInfo) {
+                document.getElementById("bill-name").value = userInfo.name || "";
+                document.getElementById("bill-phone").value = userInfo.phone || "";
+            }
+            // =================================================================
+
+            let total = globalCartItems.reduce((acc, item) => acc + item.price * item.quantity, 0);
+            document.getElementById("bank-transfer-amount").innerText = formatCurrencyGlobal(total);
+
+            document.getElementById("global-checkout-form-wrapper").classList.remove("hidden");
+            document.getElementById("global-checkout-success").classList.add("hidden");
+            checkoutModal.classList.remove("hidden");
+        }
+
+        document.getElementById("go-to-checkout").addEventListener("click", openCheckout);
+        document.getElementById("close-checkout-global").addEventListener("click", () => checkoutModal.classList.add("hidden"));
+
+        // Chuyển đổi thanh toán
+        const payRadios = document.querySelectorAll('input[name="global-payment"]');
+        const bankInfo = document.getElementById("global-bank-info");
+        const transCode = document.getElementById("global-transaction-code");
+        const btnConfirm = document.getElementById("btn-confirm-global");
+
+        payRadios.forEach(r => r.addEventListener('change', function() {
+            if(this.value === 'bank') {
+                bankInfo.classList.remove("hidden");
+                transCode.classList.remove("hidden");
+                btnConfirm.textContent = "Xác nhận đã chuyển tiền";
+            } else {
+                bankInfo.classList.add("hidden");
+                transCode.classList.add("hidden");
+                btnConfirm.textContent = "Xác nhận đặt hàng";
+            }
+        }));
+
+        // --- 4. XÁC NHẬN ĐẶT HÀNG (VALIDATION CHẶT CHẼ) ---
+        document.getElementById("btn-confirm-global").addEventListener("click", function() {
+            const name = document.getElementById("bill-name").value.trim();
+            const phone = document.getElementById("bill-phone").value.trim();
+            const address = document.getElementById("bill-address").value.trim();
+            const ward = document.getElementById("bill-ward").value.trim();
+            const district = document.getElementById("bill-district").value.trim();
+            const city = document.getElementById("bill-city").value.trim();
+            
+            if(!name || !phone || !address || !ward || !district || !city) {
+                alert("❌ Vui lòng điền đầy đủ thông tin giao hàng!");
+                return;
+            }
+
+            const paymentMethod = document.querySelector('input[name="global-payment"]:checked').value;
+            if(paymentMethod === 'bank') {
+                const code = document.getElementById("bill-transaction-code").value.trim();
+                if(!code) {
+                    alert("❌ Vui lòng nhập Mã giao dịch chuyển khoản!");
+                    return;
+                }
+            }
+
+            let orders = JSON.parse(sessionStorage.getItem("allOrders")) || [];
+            let total = globalCartItems.reduce((acc, item) => acc + item.price * item.quantity, 0);
+            
+            orders.push({
+                id: Date.now(),
+                customer: { name, phone, address: `${address}, ${ward}, ${district}, ${city}` },
+                items: globalCartItems,
+                total: total,
+                date: new Date().toLocaleString()
+            });
+            sessionStorage.setItem("allOrders", JSON.stringify(orders));
+
+            globalCartItems = [];
+            sessionStorage.setItem("shoppingCart", JSON.stringify(globalCartItems));
+            updateBadge();
+
+            document.getElementById("global-checkout-form-wrapper").classList.add("hidden");
+            document.getElementById("global-checkout-success").classList.remove("hidden");
+
+            setTimeout(() => {
+                window.location.href = "/don-hang/";
+            }, 3000);
+        });
       });
       
+      // Hàm Mua Ngay (Gọi từ Single Page)
+      window.buyNow = function(item) {
+          globalCartItems.push(item);
+          sessionStorage.setItem("shoppingCart", JSON.stringify(globalCartItems));
+          updateBadge();
+          
+          // Mở thanh toán ngay -> JS sẽ tự điền tên
+          document.getElementById("go-to-checkout").click();
+      };
+
+      // Hàm Thêm Giỏ (Gọi từ Single Page)
       window.addToCartLocal = function(item) {
           loadCart();
           const existing = globalCartItems.find(i => i.name === item.name && i.variant === item.variant && i.color === item.color);
