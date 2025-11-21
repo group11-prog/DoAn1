@@ -1,27 +1,186 @@
 {{ define "main" }}
-<link
-  rel="stylesheet"
-  href="{{ "/css/product-style.css" | relURL }}"
-/>
-
-<div class="product-list-page-container">
-  <h1>{{ .Title }}</h1>
-  <a href="/" class="back-to-home-btn">← Quay về trang chủ</a>
-
-  <div class="product-list-grid">
-    {{/* Lấy tất cả trang con (các sản phẩm) trong thư mục này */}}
-    {{ $pages := .Pages }}
-
-    {{/* Sắp xếp (tùy chọn, có thể bỏ) */}}
-    {{ $pages = $pages.ByTitle }}
+<div class="container">
+  <div class="product-page-with-filters">
     
-    {{ range $pages }}
-      {{ partial "product-card.html" . }}
-    {{ end }}
-  </div>
+    <aside class="filter-sidebar">
+      <h3><i class="fas fa-filter"></i> Lọc sản phẩm</h3>
+      
+      <div class="filter-group">
+        <h4>Sắp xếp theo</h4>
+        <select id="sort-select" style="width:100%; padding:10px; border:1px solid #ddd; border-radius:5px; outline:none; cursor:pointer;">
+            <option value="default">Mặc định</option>
+            <option value="asc">Giá thấp đến cao ↑</option>
+            <option value="desc">Giá cao đến thấp ↓</option>
+        </select>
+      </div>
 
-  {{ if eq (len $pages) 0 }}
-    <p>Chưa có sản phẩm nào cho dòng máy này.</p>
-  {{ end }}
+      <div class="filter-group">
+        <h4>Theo mức giá</h4>
+        <input type="range" id="price-filter-min" class="price-slider" min="0" max="50000000" value="0" step="1000000" style="width:100%">
+        <input type="range" id="price-filter-max" class="price-slider" min="0" max="50000000" value="50000000" step="1000000" style="width:100%">
+        <div class="price-display" style="display:flex; justify-content:space-between; font-size:0.9em; margin-top:5px;">
+          <span>Từ: <b id="price-min-display" style="color:#d70018">0đ</b></span>
+          <span>Đến: <b id="price-max-display" style="color:#d70018">50.000.000đ</b></span>
+        </div>
+      </div>
+      
+      <div class="filter-group">
+        <h4>Theo đời máy</h4>
+        <div id="series-filter-options" style="display:flex; flex-direction:column; gap:8px;">
+          <p style="color:#888">Đang tải...</p>
+        </div>
+      </div>
+
+      <button id="reset-filters" class="reset-filter-btn">Xóa tất cả bộ lọc</button>
+    </aside>
+    
+    <main class="product-grid-container">
+      <h1 class="page-title">Tất cả sản phẩm</h1>
+      
+      <div class="product-list-grid" id="all-products-grid">
+        </div>
+      
+      <div id="no-products-found" class="hidden" style="text-align:center; padding:50px; display:none;">
+        <p style="font-size:1.2em; color:#666;">Không tìm thấy sản phẩm nào phù hợp.</p>
+      </div>
+    </main>
+  </div>
 </div>
+
+<script>
+  document.addEventListener("DOMContentLoaded", function () {
+    let allProducts = []; 
+    
+    const grid = document.getElementById("all-products-grid");
+    const noResultsMsg = document.getElementById("no-products-found");
+    const seriesContainer = document.getElementById("series-filter-options");
+    const minSlider = document.getElementById("price-filter-min");
+    const maxSlider = document.getElementById("price-filter-max");
+    const minDisplay = document.getElementById("price-min-display");
+    const maxDisplay = document.getElementById("price-max-display");
+    const resetBtn = document.getElementById("reset-filters");
+    const sortSelect = document.getElementById("sort-select");
+
+    const formatPrice = (val) => {
+        if(window.formatCurrencyGlobal) return window.formatCurrencyGlobal(val);
+        return new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(val);
+    };
+
+    // 1. TẢI DỮ LIỆU
+    fetch('/index.json')
+      .then(response => response.json())
+      .then(data => {
+        allProducts = data;
+        setupFilters(allProducts);
+        applyFilters(); // Render ngay
+      })
+      .catch(error => console.error('Lỗi tải dữ liệu:', error));
+
+    // 2. TẠO BỘ LỌC (SỬA LỖI TÊN & SẮP XẾP NGƯỢC)
+    function setupFilters(products) {
+      if (!products || products.length === 0) return;
+      
+      // Lấy danh sách, sắp xếp ngược (Z-A) để đời mới nhất (iPhone 17) lên đầu
+      const allSeries = [...new Set(products.map(p => p.series).filter(Boolean))].sort().reverse();
+      
+      let seriesHTML = "";
+      allSeries.forEach(seriesName => {
+        // Logic làm đẹp tên: "iphone17series" -> "iPhone 17 Series"
+        let cleanName = seriesName.toLowerCase();
+        cleanName = cleanName.replace("series", " Series").replace("iphone", "iPhone ");
+        // Viết hoa chữ cái đầu mỗi từ
+        cleanName = cleanName.replace(/\b\w/g, l => l.toUpperCase());
+        // Sửa lại chữ P của iPhone cho đúng chuẩn (vì bước trên làm thành Iphone)
+        cleanName = cleanName.replace("Iphone", "iPhone");
+
+        seriesHTML += `
+          <div class="filter-checkbox">
+            <input type="checkbox" id="s-${seriesName}" name="series" value="${seriesName}" style="margin-right:10px; transform:scale(1.2); cursor:pointer;">
+            <label for="s-${seriesName}" style="cursor:pointer;">${cleanName}</label>
+          </div>
+        `;
+      });
+      seriesContainer.innerHTML = seriesHTML;
+      
+      document.querySelectorAll('input[name="series"]').forEach(cb => {
+        cb.addEventListener("change", applyFilters);
+      });
+    }
+
+    // 3. VẼ SẢN PHẨM
+    function renderProducts(productsToRender) {
+      grid.innerHTML = "";
+      if (!productsToRender || productsToRender.length === 0) {
+        noResultsMsg.style.display = "block";
+        return;
+      }
+      noResultsMsg.style.display = "none";
+      
+      productsToRender.forEach(product => {
+        const imgUrl = product.image || "/images/placeholder.jpg";
+        const cardHTML = `
+          <div class="product-card-item">
+            <a href="${product.url}" class="product-card-item-link" style="display:flex; flex-direction:column; flex:1;">
+              <div class="product-card-image-wrapper">
+                <img src="${imgUrl}" alt="${product.title}" class="product-card-image">
+              </div>
+              <div class="product-card-info">
+                <h3 class="product-card-title">${product.title}</h3>
+                <p class="product-card-price">${formatPrice(product.lowestPrice)}</p>
+              </div>
+            </a>
+            
+          </div>
+        `;
+        grid.innerHTML += cardHTML;
+      });
+    }
+
+    // 4. LOGIC LỌC & SẮP XẾP
+    function applyFilters() {
+      const minPrice = parseFloat(minSlider.value);
+      const maxPrice = parseFloat(maxSlider.value);
+      const selectedSeries = Array.from(document.querySelectorAll('input[name="series"]:checked')).map(cb => cb.value);
+      const sortValue = sortSelect.value;
+
+      // Lọc
+      let filtered = allProducts.filter(product => {
+        const price = parseFloat(product.lowestPrice) || 0;
+        const priceMatch = price >= minPrice && price <= maxPrice;
+        const seriesMatch = selectedSeries.length === 0 || selectedSeries.includes(product.series);
+        return priceMatch && seriesMatch;
+      });
+
+      // Sắp xếp
+      if (sortValue === 'asc') {
+          filtered.sort((a, b) => parseFloat(a.lowestPrice) - parseFloat(b.lowestPrice));
+      } else if (sortValue === 'desc') {
+          filtered.sort((a, b) => parseFloat(b.lowestPrice) - parseFloat(a.lowestPrice));
+      }
+
+      renderProducts(filtered);
+    }
+    
+    // Event Listeners
+    minSlider.addEventListener("input", () => {
+      minDisplay.textContent = formatPrice(minSlider.value);
+      if (parseFloat(minSlider.value) > parseFloat(maxSlider.value)) maxSlider.value = minSlider.value;
+      applyFilters();
+    });
+    maxSlider.addEventListener("input", () => {
+      maxDisplay.textContent = formatPrice(maxSlider.value);
+      if (parseFloat(maxSlider.value) < parseFloat(minSlider.value)) minSlider.value = maxSlider.value;
+      applyFilters();
+    });
+    sortSelect.addEventListener("change", applyFilters);
+    
+    resetBtn.addEventListener("click", () => {
+        minSlider.value = 0; maxSlider.value = 50000000;
+        minDisplay.textContent = formatPrice(0); maxDisplay.textContent = formatPrice(50000000);
+        sortSelect.value = "default";
+        document.querySelectorAll('input[name="series"]').forEach(cb => cb.checked = false);
+        applyFilters();
+    });
+  });
+</script>
 {{ end }}

@@ -1,195 +1,110 @@
 {{ define "main" }}
-<link
-  rel="stylesheet"
-  href="{{ "/css/product-style.css" | relURL }}"
-/>
-
-<div class="main-container">
-  <div class="main-header">
-    {{ with .Site.Params.logo }}
-    <div class="logo-container">
-      <img
-        src="{{ . | relURL }}"
-        alt="Logo"
-        class="logo"
-      />
-    </div>
-    {{ end }}
-    <h1 class="site-title">{{ .Site.Title }}</h1>
-    {{ with .Site.Params.description }}
-    <p class="site-subtitle">{{ . }}</p>
-    {{ end }}
-
-    <div class="search-container">
-      <input type="text" id="search-input" placeholder="Tìm kiếm">
-      <i class="fas fa-search search-icon"></i>
-      <div id="search-results-container" class="search-results-container hidden">
-        </div>
-    </div>
-    </div>
-</div>
-
-<div class="homepage-content">
-  <h2 class="homepage-section-title">{{ .Site.Params.author.headline | default "Danh Mục Sản Phẩm" }}</h2>
-  <div class="series-grid-container">
-    {{/* Đọc dữ liệu từ data/series.toml */}}
-    {{ range .Site.Data.series.card }}
-    <a href="{{ .url | relURL }}" class="series-card-link">
-      <div class="series-card">
-        <div class="series-image-wrapper">
-          <img
-            src="{{ .image | relURL }}"
-            alt="{{ .name }}"
-            class="series-image"
-          />
-        </div>
-        <h3 class="series-name">{{ .name }}</h3>
-      </div>
-    </a>
-    {{ end }}
-  </div>
-</div>
-
-<div id="user-info-modal" class="modal-overlay hidden">
-  <div class="modal-content" style="max-width: 400px;">
+<div class="home-container">
     
-    <span class="close-modal" id="close-welcome-modal">&times;</span>
-    <h2>Chào mừng!</h2>
-    <p>Cho chúng mình xin thông tin liên hệ nhé !!!</p>
-
-    <div class="voucher-promo-message">
-      🎉 Tặng voucher giảm giá khi bạn là sinh viên ĐH KHTN !!! 🎆
+    <div class="home-header">
+        <img src="/images/Logo-dai-hoc-khoa-hoc-tu-nhien.png" alt="Logo KHTN" class="school-logo">
+        
+        <h1 class="shop-name">Mobile Center</h1>
+        <p class="sub-text">Chào mừng đến với cửa hàng !!!</p>
+        
+        <div class="search-container">
+            <div class="search-wrapper">
+                <input type="text" id="search-input" placeholder="Nhập tên iPhone cần tìm..." autocomplete="off">
+                <button class="search-icon" id="search-btn">
+                    <i class="fas fa-search"></i>
+                </button>
+            </div>
+            <div id="search-results" class="search-results-container hidden"></div>
+        </div>
     </div>
 
-    <div id="user-info-form">
-      <div class="form-group">
-        <label for="user-name">Tên của bạn</label>
-        <input type="text" id="user-name" placeholder="Nguyễn Văn A" required>
-      </div>
-      <div class="form-group">
-        <label for="user-phone">Số điện thoại</label>
-        <input type="tel" id="user-phone" placeholder="09xxxxxxxx">
-      </div>
-      <button id="save-user-info">Lưu thông tin</button>
+    <div class="category-section">
+        <h2 class="cat-title">Danh Mục Sản Phẩm</h2>
+        <div class="category-grid">
+            {{ $sections := (.Site.GetPage "section" "san-pham").Sections }}
+            {{ range $sections }}
+            <a href="{{ .Permalink }}" class="cat-card">
+                <div class="cat-img">
+                    {{ $img := "" }}
+                    {{ if in .Title "17" }}{{ $img = "/images/iphone-17-pro-max-titanium-orange.jpg" }}
+                    {{ else if in .Title "16" }}{{ $img = "/images/iphone-16-pro-max-titanium-desert.jpg" }}
+                    {{ else if in .Title "15" }}{{ $img = "/images/iphone-15-pro-max-titanium-natural.jpg" }}
+                    {{ else if in .Title "14" }}{{ $img = "/images/iphone-14-pro-max-deep-purple.jpg" }}
+                    {{ else if in .Title "13" }}{{ $img = "/images/iphone-13-pro-max-sierra-blue.jpg" }}
+                    {{ else if in .Title "12" }}{{ $img = "/images/iphone-12-pro-pacific-blue.jpg" }}
+                    {{ else }}{{ $img = "/images/feature_pp.png" }}{{ end }}
+                    <img src="{{ $img }}" alt="{{ .Title }}">
+                </div>
+                <div class="cat-info"><h3>{{ .Title }}</h3></div>
+            </a>
+            {{ end }}
+        </div>
     </div>
-  </div>
+
 </div>
-
 
 <script>
-  document.addEventListener("DOMContentLoaded", function () {
-    
-    // --- LOGIC 1: RESET KHI REFRESH ---
-    try {
-      const navigationEntries = performance.getEntriesByType("navigation");
-      if (navigationEntries.length > 0) {
-        const navType = navigationEntries[0].type;
-        if (navType === "reload") {
-          console.log(
-            "Phát hiện REFRESH trang, đang xóa dữ liệu test..."
-          );
-          localStorage.removeItem("allOrders");
-          localStorage.removeItem("shoppingCart");
-          localStorage.removeItem("userInfo");
-        }
-      }
-    } catch (e) {
-      console.error("Không thể kiểm tra navigation type:", e);
-    }
-    
-    // --- MỚI: LOGIC 2 (KIỂM TRA THÔNG TIN USER) ---
-    const userInfoModal = document.getElementById("user-info-modal");
-    const saveUserInfoBtn = document.getElementById("save-user-info");
-    const userNameInput = document.getElementById("user-name");
-    const userPhoneInput = document.getElementById("user-phone");
-    
-    // --- MỚI: Lấy nút X ---
-    const closeWelcomeModalBtn = document.getElementById("close-welcome-modal");
-
-    let userInfo = JSON.parse(localStorage.getItem("userInfo"));
-    if (!userInfo || !userInfo.name) {
-      userInfoModal.classList.remove("hidden");
-    }
-
-    saveUserInfoBtn.addEventListener("click", function() {
-      const name = userNameInput.value.trim();
-      const phone = userPhoneInput.value.trim();
-
-      if (name === "") {
-        alert("Vui lòng nhập tên của bạn.");
-        return;
-      }
-      
-      userInfo = { name: name, phone: phone };
-      localStorage.setItem("userInfo", JSON.stringify(userInfo));
-      
-      userInfoModal.classList.add("hidden");
-    });
-    
-    // --- MỚI: Thêm sự kiện click cho nút X ---
-    if (closeWelcomeModalBtn) {
-      closeWelcomeModalBtn.addEventListener("click", function() {
-        userInfoModal.classList.add("hidden");
-      });
-    }
-    // --- KẾT THÚC LOGIC 2 ---
-
-
-    // --- MỚI: LOGIC 3 (TÌM KIẾM SẢN PHẨM) ---
+document.addEventListener("DOMContentLoaded", function() {
+    let allProducts = [];
     const searchInput = document.getElementById("search-input");
-    const resultsContainer = document.getElementById("search-results-container");
-    let searchData = [];
+    const resultsBox = document.getElementById("search-results");
 
-    // 1. Tải "database" JSON
+    // 1. Tải dữ liệu sản phẩm
     fetch('/index.json')
-      .then(response => response.json())
-      .then(data => {
-        searchData = data;
-      })
-      .catch(error => console.error('Lỗi tải search.json:', error));
+        .then(r => r.json())
+        .then(data => { allProducts = data; })
+        .catch(e => console.error(e));
 
     // 2. Lắng nghe sự kiện gõ phím
-    searchInput.addEventListener("input", function(e) {
-      const query = e.target.value.toLowerCase().trim();
-      
-      if (query.length < 2) {
-        resultsContainer.innerHTML = "";
-        resultsContainer.classList.add("hidden");
-        return;
-      }
+    searchInput.addEventListener("input", function() {
+        const keyword = this.value.trim().toLowerCase();
+        
+        // Nếu ô trống thì ẩn kết quả
+        if(keyword.length === 0) {
+            resultsBox.classList.add("hidden");
+            return;
+        }
 
-      // 3. Lọc dữ liệu
-      const results = searchData.filter(item => 
-        item.title.toLowerCase().includes(query)
-      );
-
-      // 4. Hiển thị kết quả
-      if (results.length > 0) {
-        let html = "";
-        results.forEach(item => {
-          html += `
-            <a href="${item.url}" class="search-result-item">
-              <img src="${item.image}" alt="${item.title}" class="search-result-image">
-              <span class="search-result-title">${item.title}</span>
-            </a>
-          `;
-        });
-        resultsContainer.innerHTML = html;
-        resultsContainer.classList.remove("hidden");
-      } else {
-        resultsContainer.innerHTML = `<div class="search-no-results">Không tìm thấy sản phẩm nào.</div>`;
-        resultsContainer.classList.remove("hidden");
-      }
+        // Lọc sản phẩm
+        const matches = allProducts.filter(p => p.title.toLowerCase().includes(keyword));
+        
+        // Hiển thị kết quả
+        renderResults(matches);
     });
 
-    // 5. Ẩn kết quả khi click ra ngoài
+    // 3. Hàm vẽ kết quả
+    function renderResults(products) {
+        resultsBox.innerHTML = "";
+        
+        if(products.length === 0) {
+            resultsBox.innerHTML = `<div class="search-no-results">Không tìm thấy sản phẩm nào.</div>`;
+        } else {
+            products.forEach(p => {
+                // Format giá
+                const price = new Intl.NumberFormat('vi-VN').format(p.lowestPrice) + ' đ';
+                
+                const item = document.createElement("a");
+                item.href = p.url;
+                item.classList.add("search-result-item");
+                item.innerHTML = `
+                    <img src="${p.image}" class="search-result-image" alt="${p.title}">
+                    <div class="search-result-info">
+                        <div class="search-result-title">${p.title}</div>
+                        <div class="search-result-price">${price}</div>
+                    </div>
+                `;
+                resultsBox.appendChild(item);
+            });
+        }
+        resultsBox.classList.remove("hidden");
+    }
+
+    // 4. Ẩn kết quả khi click ra ngoài
     document.addEventListener("click", function(e) {
-      if (!resultsContainer.contains(e.target) && e.target !== searchInput) {
-        resultsContainer.classList.add("hidden");
-      }
+        if (!searchInput.contains(e.target) && !resultsBox.contains(e.target)) {
+            resultsBox.classList.add("hidden");
+        }
     });
-    // --- KẾT THÚC LOGIC 3 ---
-
-  });
+});
 </script>
 {{ end }}

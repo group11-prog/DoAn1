@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html lang="{{ .Site.Language.Lang | default "vi" }}">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>{{ .Title }} | Mobile Center</title>
+    
+    <link rel="stylesheet" href="{{ "/css/product-style.css" | relURL }}" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" />
+    
+    {{ hugo.Generator }}
+
+    <style>
+        #user-info-modal .modal-content { text-align: center; max-width: 400px; }
+        #user-info-modal h2 { font-size: 2rem; font-weight: 800; margin-bottom: 10px; }
+        .promo-text { color: #d70018; font-weight: bold; font-size: 1.1rem; margin-bottom: 20px; }
+        .voucher-box-dashed { border: 2px dashed #d70018; background-color: #fff0f0; padding: 15px; border-radius: 8px; margin-bottom: 20px; color: #d70018; font-weight: 700; }
+        .input-group { text-align: left; margin-bottom: 15px; }
+        .input-group label { display: block; font-weight: 600; margin-bottom: 5px; }
+        .input-group input { width: 100%; padding: 10px; border: 1px solid #ccc; border-radius: 5px; font-size: 1rem; }
+        #save-user-info { width: 100%; background: #007bff; color: white; padding: 12px; border: none; border-radius: 5px; font-weight: bold; cursor: pointer; margin-top: 10px; }
+        #save-user-info:hover { background: #0056b3; }
+    </style>
+</head>
+<body>
+
+    <nav class="main-navbar">
+        <div class="navbar-container">
+            <a href="{{ "/" | relURL }}" class="navbar-brand">Mobile Center</a>
+            <div class="navbar-links">
+                <a href="{{ "/" | relURL }}" class="nav-link">Trang chủ</a>
+                <a href="{{ "/san-pham" | relURL }}" class="nav-link">Sản phẩm</a>
+                <a href="#" class="nav-link" id="global-cart-button">
+                    <i class="fas fa-shopping-cart"></i> Giỏ hàng
+                    <span id="global-cart-badge" class="cart-badge hidden">0</span>
+                </a>
+            </div>
+        </div>
+    </nav>
+
+    <main id="main-content">
+        {{ block "main" . }}{{ end }}
+    </main>
+
+    <footer class="site-footer">
+        <div class="footer-wrapper">
+            <div class="footer-col">
+                <h3>Mobile Center</h3>
+                <p style="color: #ccc; line-height: 1.6;">
+                    Hệ thống bán lẻ điện thoại chính hãng uy tín nhất. <br>
+                    Cam kết chất lượng, giá cả cạnh tranh.
+                </p>
+            </div>
+
+            <div class="footer-col">
+                <h3>Thông tin liên hệ</h3>
+                <div class="footer-info">
+                    <p>
+                        <i class="fas fa-phone-alt"></i> 
+                        <a href="tel:0848921193">0848921193</a>
+                    </p>
+                    <p>
+                        <i class="fas fa-envelope"></i> 
+                        <a href="mailto:dbinh1312@gmail.com">dbinh1312@gmail.com</a>
+                    </p>
+                    <p>
+                        <i class="fab fa-facebook-f"></i> 
+                        <a href="https://www.facebook.com/ltdb.2910" target="_blank">Lê Trịnh Duy Bình</a>
+                    </p>
+                </div>
+            </div>
+        </div>
+        
+        <div class="copyright">
+            &copy; 2025 Mobile Center. All rights reserved.
+        </div>
+    </footer>
+    <div id="user-info-modal" class="modal-overlay hidden">
+        <div class="modal-content">
+            <span class="close-modal" id="close-user-modal">&times;</span>
+            <h2>Chào mừng!</h2>
+            <p class="promo-text">Cho chúng mình xin thông tin liên hệ nhé !!!</p>
+            <div class="voucher-box-dashed">🎉 Tặng voucher giảm giá khi bạn là sinh viên ĐH KHTN !!! 🎆</div>
+            <div class="input-group">
+                <label>Tên của bạn</label>
+                <input type="text" id="user-name-input" placeholder="Nguyễn Văn A">
+            </div>
+            <div class="input-group">
+                <label>Số điện thoại</label>
+                <input type="tel" id="user-phone-input" placeholder="09xxxxxxxx">
+            </div>
+            <button id="save-user-info">Lưu thông tin</button>
+        </div>
+    </div>
+
+    <div id="cart-modal" class="modal-overlay hidden">
+        <div class="modal-content">
+            <span class="close-modal" id="close-cart-btn-x">&times;</span>
+            <h2>Giỏ hàng của bạn</h2>
+            <ul id="cart-item-list"></ul>
+            <div class="cart-total">
+                <strong>Tổng cộng:</strong>
+                <strong id="cart-total-price">0đ</strong>
+            </div>
+            <div style="text-align:right; margin-top:10px;">
+                <button id="clear-cart-button" style="background:none; border:none; color:red; text-decoration:underline; cursor:pointer;">Xóa giỏ hàng</button>
+            </div>
+            <div class="cart-buttons">
+                <button id="close-cart-modal">Tiếp tục mua</button>
+                <button id="go-to-checkout">Thanh toán</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+      function formatCurrencyGlobal(value) {
+        return new Intl.NumberFormat("vi-VN", { style: "currency", currency: "VND" }).format(value);
+      }
+      
+      let globalCartItems = [];
+      const cartModal = document.getElementById("cart-modal");
+      const badge = document.getElementById("global-cart-badge");
+
+      function updateBadge() {
+        let total = 0;
+        if(globalCartItems) total = globalCartItems.reduce((acc, item) => acc + item.quantity, 0);
+        if (total > 0) {
+          badge.textContent = total;
+          badge.classList.remove("hidden");
+        } else {
+          badge.classList.add("hidden");
+        }
+      }
+
+      function loadCart() {
+        globalCartItems = JSON.parse(sessionStorage.getItem("shoppingCart")) || [];
+        updateBadge();
+      }
+
+      function renderCart() {
+        const list = document.getElementById("cart-item-list");
+        const totalEl = document.getElementById("cart-total-price");
+        list.innerHTML = "";
+        let total = 0;
+        if (globalCartItems.length === 0) {
+          list.innerHTML = "<li style='text-align:center; padding:20px;'>Giỏ hàng trống.</li>";
+          totalEl.textContent = formatCurrencyGlobal(0);
+          return;
+        }
+        globalCartItems.forEach((item) => {
+          total += item.price * item.quantity;
+          list.innerHTML += `
+            <li style="display:flex; justify-content:space-between; padding:10px 0; border-bottom:1px solid #eee;">
+              <div><strong>${item.name}</strong><br><small>${item.variant} - ${item.color} (x${item.quantity})</small></div>
+              <div style="color:#d70018; font-weight:bold;">${formatCurrencyGlobal(item.price * item.quantity)}</div>
+            </li>`;
+        });
+        totalEl.textContent = formatCurrencyGlobal(total);
+      }
+      
+      function checkUserPopup() {
+          const userInfo = sessionStorage.getItem("userInfo");
+          const userModal = document.getElementById("user-info-modal");
+          if (!userInfo) {
+              setTimeout(() => { userModal.classList.remove("hidden"); }, 500);
+          }
+      }
+
+      document.addEventListener("DOMContentLoaded", function () {
+        loadCart();
+        checkUserPopup();
+
+        document.getElementById("save-user-info").addEventListener("click", function() {
+            const name = document.getElementById("user-name-input").value;
+            const phone = document.getElementById("user-phone-input").value;
+            if(name && phone) {
+                const info = { name: name, phone: phone };
+                sessionStorage.setItem("userInfo", JSON.stringify(info));
+                alert("Chào mừng " + name + "!");
+                document.getElementById("user-info-modal").classList.add("hidden");
+            } else {
+                alert("Vui lòng điền đầy đủ!");
+            }
+        });
+
+        document.getElementById("close-user-modal").addEventListener("click", function() {
+            document.getElementById("user-info-modal").classList.add("hidden");
+        });
+
+        document.getElementById("global-cart-button").addEventListener("click", function(e) {
+            e.preventDefault();
+            renderCart();
+            cartModal.classList.remove("hidden");
+        });
+        
+        const closeCart = () => cartModal.classList.add("hidden");
+        document.getElementById("close-cart-btn-x").addEventListener("click", closeCart);
+        document.getElementById("close-cart-modal").addEventListener("click", closeCart);
+        cartModal.addEventListener("click", (e) => { if(e.target === cartModal) closeCart(); });
+
+        document.getElementById("clear-cart-button").addEventListener("click", function() {
+            if(confirm("Xóa hết giỏ hàng?")) {
+                globalCartItems = [];
+                sessionStorage.setItem("shoppingCart", JSON.stringify(globalCartItems));
+                renderCart();
+                updateBadge();
+            }
+        });
+      });
+      
+      window.addToCartLocal = function(item) {
+          loadCart();
+          const existing = globalCartItems.find(i => i.name === item.name && i.variant === item.variant && i.color === item.color);
+          if(existing) existing.quantity += item.quantity;
+          else globalCartItems.push(item);
+          sessionStorage.setItem("shoppingCart", JSON.stringify(globalCartItems));
+          updateBadge();
+          renderCart();
+          cartModal.classList.remove("hidden");
+      };
+    </script>
+</body>
+</html>

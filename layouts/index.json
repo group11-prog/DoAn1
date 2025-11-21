@@ -1,13 +1,49 @@
-{{- $data := slice -}}
-{{/* 1. Lấy trang section "san-pham" */}}
-{{- $sanPhamSection := .Site.GetPage "san-pham" -}}
+[
+  {{- $list := where .Site.RegularPages "Section" "san-pham" -}}
+  {{- $len := len $list -}}
+  
+  {{- range $index, $e := $list -}}
 
-{{/* 2. Lặp qua các "Series" (iphone17series, 16...) bên trong 'san-pham' */}}
-{{- range $sanPhamSection.Sections -}}
-    {{/* 3. Lặp qua từng sản phẩm (iphone-17-pro...) bên trong mỗi series */}}
-    {{- range .Pages -}}
-        {{/* 4. Thêm dữ liệu sản phẩm vào "database" */}}
-        {{- $data = $data | append (dict "title" .Title "url" .Permalink "image" (.Params.featured_image | relURL)) -}}
+    {{- /* 1. TÌM GIÁ THẤP NHẤT */ -}}
+    {{- $lowestPrice := 0.0 -}}
+    {{- if .Params.variants -}}
+        {{- $prices := slice -}}
+        {{- range .Params.variants -}}
+            {{- $prices = $prices | append (float .price) -}}
+        {{- end -}}
+        {{- $lowestPrice = math.Min $prices -}}
+    {{- else if .Params.price -}}
+        {{- $lowestPrice = float .Params.price -}}
     {{- end -}}
-{{- end -}}
-{{- $data | jsonify -}}
+
+    {{- /* 2. TÌM SERIES (SỬA LỖI WINDOWS) */ -}}
+    {{- $series := "Khác" -}}
+    
+    {{- /* Chuẩn hóa đường dẫn: Thay dấu \ thành / để chạy được trên mọi máy */ -}}
+    {{- $path := replace .File.Dir "\\" "/" -}}
+    {{- $parts := split $path "/" -}}
+    
+    {{- /* Cấu trúc thường là: san-pham/iphone17series/iphone17promax/ */ -}}
+    {{- /* parts[0] là "san-pham", parts[1] là "iphone17series" */ -}}
+    
+    {{- if ge (len $parts) 2 -}}
+        {{- $series = index $parts 1 -}}
+    {{- end -}}
+
+    {{- /* Nếu series rỗng hoặc trùng với san-pham thì thử lấy tên thư mục cha trực tiếp */ -}}
+    {{- if or (eq $series "") (eq $series "san-pham") -}}
+         {{- with .CurrentSection -}}
+            {{- $series = .File.BaseFileName -}}
+         {{- end -}}
+    {{- end -}}
+
+    {
+      "title": {{ .Title | jsonify }},
+      "url": {{ .Permalink | jsonify }},
+      "image": {{ .Params.featured_image | default .Params.image | default "/images/placeholder.jpg" | relURL | jsonify }},
+      "lowestPrice": {{ $lowestPrice | jsonify }},
+      "series": {{ $series | jsonify }}
+    }
+    {{- if ne (add $index 1) $len -}},{{- end -}}
+  {{- end -}}
+]

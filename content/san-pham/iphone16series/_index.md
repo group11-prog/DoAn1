@@ -1,3 +1,3 @@
 +++
-title = "iPhone 17 Series"
+title = "iPhone 16 Series"
 +++
